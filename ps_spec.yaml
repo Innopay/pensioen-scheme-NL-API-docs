@@ -872,11 +872,11 @@ components:
           type: string
           description: duration of pension agreement. Can be 'tijdelijk', 'levenslang'
           example: levenslang
-        agreement_startdate:
+        regelings_startdatum:
           type: string
           description: starting date since the user became a participant with the pensionfund
           example: 2001-01-01
-        user_status:
+        deelnemer_status:
           type: string
           description: describes the current status of the user with the pensionfund. Can be 'actief', 'slapend', 'gepensioneerd'
           example: actief
@@ -950,14 +950,14 @@ components:
         periodEnd:
            description: defines the date that must be used by the server as enddate for calculation of pension accrual. If the date is beyond current date then server can choose to estimate future values of pension accrual or provide error message that future dates are not supported. If value is not provided then the server needs to validate whether an enddate exists in pension adminstration (e.g. legal separation date), otherwise current date must be used.
            example: 2023-01-07
-        divorceDivisionPercentage:
+        scheidingVerdelingPercentage:
            description: Should be percentage assigned to the person related to the BSN (e.g. the partner receives the 100 -/- this percentage. 
            type: number
            example: 50
-        divorceDivisionMethod:
+        scheidingVerdelingMethode:
            description: Can be either 'verevening' or 'conversie'.
            example: verevening
-        divorceAcceptanceBPP:
+        scheidingPartnerAcceptatieBPP:
            description: Indicates whether partner is accepting their allocated 'Bijzonder Partner Pensioen' (BPP) if applicable. True indicates that partner accepts the allocated BPP, which then needs to be considered in conversion calculations. False indicates partner is declining their BPP allocation.
            example: true
 
@@ -973,63 +973,63 @@ components:
     divorceCalculationResult:
         type: object
         properties:
-          pensionAgreement:
+          pensioenRegeling:
             $ref: '#/components/schemas/pensionAgreement'
-          entitlementOldAge:
+          aanspraakOuderdom:
             $ref: '#/components/schemas/entitlementOldAge'
-          entitlementOldAgePartner:
+          aanspraakOuderdomPartner:
             $ref: '#/components/schemas/entitlementOldAgePartner'
-          entitlementBijzonderPartnerPensioen:
+          aansprakBijzonderPartnerPensioen:
             $ref: '#/components/schemas/entitlementBijzonderPartnerPensioen'
     pensionAgreement:
       type: object
       properties:
-        agreement_type:
+        regelingsType:
           type: string
           description: type of pension agreement. Can be 'uitkeringsregeling', 'premieregeling', 'kapitaalregeling'
           example: uitkeringsregeling
-        duration:
+        regelingsDuur:
           type: string
           description: duration of pension agreement. Can be 'tijdelijk', 'levenslang'
           example: levenslang
     entitlementOldAge:
       type: object
       properties:
-        monthly_entitlement_before:
+        maandelijkse_aanspraak_voor:
           type: number
           description: Expected montly old age pension entitlement (EUR) before division of pension due to divorce.
           example: 2000
-        monthly_entitlement_after:
+        maandelijkse_aanspraak_na:
           type: number
           description: Expected montly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
           example: 1000
-        commutation_test:
+        afkoop_test:
           type: string
           description: Indicates whether resulting entitlement exceeds legal minimum for commutation of pension. Entitlements falling below the commutation limit cannot be divided. Must be either 'success' (commutation limit is met) or 'failed' (commutation limit is not met).
           example: Success
     entitlementOldAgePartner:
       type: object
       properties:
-        monthly_entitlement_before:
+        maandelijkse_aanspraak_voor:
           type: number
           description: Partner's expected montly old age pension entitlement (EUR) before division of pension due to divorce.
           example: 0
-        monthly_entitlement_after:
+        maandelijkse_aanspraak_na:
           type: number
           description: Partner's expected montly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
           example: 1000
-        commutation_test:
+        afkoop_test:
           type: string
           description: Indicates whether resulting entitlement exceeds legal minimum for commutation of pension. Entitlements falling below the commutation limit cannot be divided. Must be either 'success' (commutation limit is met) or 'failed' (commutation limit is not met).
           example: Success
     entitlementBijzonderPartnerPensioen:
       type: object
       properties:
-        monthly_bpp_accrual_before:
+        maandelijkse_bpp_opbouw_voor:
           type: number
           description: Current accrual of BPP as a reservation for the partner in case when the participant passes away.
           example: 800
-        monthly_bpp_accrual_after:
+        maandelijkse_bpp_opbouw_na:
           type: number
           description: Accrued BPP after applying divorce division parameters. Remains the same in case of declined BPP acceptance or accepted with verevening method. Is reset to 0 when BPP is accepted by the partner and conversion is applied.
           example: 800     
