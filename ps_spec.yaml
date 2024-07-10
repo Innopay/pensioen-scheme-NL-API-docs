@@ -1003,7 +1003,7 @@ components:
           type: number
           description: Expected montly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
           example: 1000
-        afkoop_test:
+        afkoopgrens_test:
           type: string
           description: Indicates whether resulting entitlement exceeds legal minimum for commutation of pension. Entitlements falling below the commutation limit cannot be divided. Must be either 'success' (commutation limit is met) or 'failed' (commutation limit is not met).
           example: Success
@@ -1018,7 +1018,7 @@ components:
           type: number
           description: Partner's expected montly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
           example: 1000
-        afkoop_test:
+        afkoopgrens_test:
           type: string
           description: Indicates whether resulting entitlement exceeds legal minimum for commutation of pension. Entitlements falling below the commutation limit cannot be divided. Must be either 'success' (commutation limit is met) or 'failed' (commutation limit is not met).
           example: Success
