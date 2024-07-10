@@ -974,14 +974,14 @@ components:
         type: object
         properties:
           pensioenRegeling:
-            $ref: '#/components/schemas/pensionAgreement'
-          aanspraakOuderdom:
+            $ref: '#/components/schemas/pensioenRegeling'
+          aanspraakOuderdomspensioen:
             $ref: '#/components/schemas/entitlementOldAge'
-          aanspraakOuderdomPartner:
+          aanspraakOuderdomspensioenPartner:
             $ref: '#/components/schemas/entitlementOldAgePartner'
           aansprakBijzonderPartnerPensioen:
             $ref: '#/components/schemas/entitlementBijzonderPartnerPensioen'
-    pensionAgreement:
+    pensioenRegeling:
       type: object
       properties:
         regelingsType:
