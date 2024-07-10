@@ -866,7 +866,7 @@ components:
           example: 1234567890
         agreement_type:
           type: string
-          decription: type of pension agreement. Can be 'uitkeringsregeling', 'premieregeling', 'kapitaalregeling'
+          description: type of pension agreement. Can be 'uitkeringsregeling', 'premieregeling', 'kapitaalregeling'
           example: uitkeringsregeling
         duration:
           type: string
@@ -986,7 +986,7 @@ components:
       properties:
         agreement_type:
           type: string
-          decription: type of pension agreement. Can be 'uitkeringsregeling', 'premieregeling', 'kapitaalregeling'
+          description: type of pension agreement. Can be 'uitkeringsregeling', 'premieregeling', 'kapitaalregeling'
           example: uitkeringsregeling
         duration:
           type: string
@@ -997,11 +997,11 @@ components:
       properties:
         monthly_entitlement_before:
           type: number
-          decription: Expected montly old age pension entitlement (EUR) before division of pension due to divorce.
+          description: Expected montly old age pension entitlement (EUR) before division of pension due to divorce.
           example: 2000
         monthly_entitlement_after:
           type: number
-          decription: Expected montly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
+          description: Expected montly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
           example: 1000
         commutation_test:
           type: string
@@ -1012,11 +1012,11 @@ components:
       properties:
         monthly_entitlement_before:
           type: number
-          decription: Partner's expected montly old age pension entitlement (EUR) before division of pension due to divorce.
+          description: Partner's expected montly old age pension entitlement (EUR) before division of pension due to divorce.
           example: 0
         monthly_entitlement_after:
           type: number
-          decription: Partner's expected montly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
+          description: Partner's expected montly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
           example: 1000
         commutation_test:
           type: string
@@ -1027,11 +1027,11 @@ components:
       properties:
         monthly_bpp_accrual_before:
           type: number
-          decription: Current accrual of BPP as a reservation for the partner in case when the participant passes away.
+          description: Current accrual of BPP as a reservation for the partner in case when the participant passes away.
           example: 800
         monthly_bpp_accrual_after:
           type: number
-          decription: Accrued BPP after applying divorce division parameters. Remains the same in case of declined BPP acceptance or accepted with verevening method. Is reset to 0 when BPP is accepted by the partner and conversion is applied.
+          description: Accrued BPP after applying divorce division parameters. Remains the same in case of declined BPP acceptance or accepted with verevening method. Is reset to 0 when BPP is accepted by the partner and conversion is applied.
           example: 800     
  
 
