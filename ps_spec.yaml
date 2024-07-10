@@ -990,7 +990,7 @@ components:
           example: uitkeringsregeling
         regelingsDuur:
           type: string
-          description: duration of pension agreement. Can be 'tijdelijk', 'levenslang'
+          description: duration of pension agreement. Can be 'tijdelijk' or 'levenslang'
           example: levenslang
     entitlementOldAge:
       type: object
