@@ -860,15 +860,15 @@ components:
     userInfoPension:
       type: object
       properties:
-        reference:
+        deelnemer_referentie_id:
           type: string
           description: contains reference number of the users pension agreement with a pensionfund
           example: 1234567890
-        agreement_type:
+        regelingsType:
           type: string
           description: type of pension agreement. Can be 'uitkeringsregeling', 'premieregeling', 'kapitaalregeling'
           example: uitkeringsregeling
-        duration:
+        regelingsDuur:
           type: string
           description: duration of pension agreement. Can be 'tijdelijk', 'levenslang'
           example: levenslang
