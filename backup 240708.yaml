@@ -1,0 +1,1045 @@
+openapi: 3.0.0
+info:
+  title: Reference Datasources
+  description: This API reference documentation serves as an example as to how "datasources" can publish the required pensionservices APIs.
+  version: 1.0.0
+servers:
+  - url: https://api.your-auth-server.com/v1
+paths:
+  /oauth2/token:
+    post:
+      summary: Retrieve access token
+      description: Access to resource endpoints is granted based on access tokens. Each approved and active Scheme participant must be able to request access tokens by using the token endpoint offered by each datasource. To obtain an Access Token the OAuth client credentials type grant flow is used as explained in RFC6749 & RFC7523. As clients may not be pre-registered, the client secret is replaced with a client assertion using the client's certificate. Additionally, the client presents a status token (issued & signed by Scheme Authority) to prove the accepted & active participant status for the client.  
+      requestBody:
+        description: Token request body
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              example: 
+                $ref: '#/components/schemas/TokenRequestBody'
+              properties:
+                grant_type:
+                  type: string
+                  description: OAuth 2.0 grant type MUST be set to client_credentials
+                  example: client_credentials
+                scope:
+                  type: string
+                  description: The value passed for the scope parameter in this request should be "afsprakenstelsel_pensioenservices" 
+                  example: afsprakenstelsel_pensioenservices               
+                client_id:
+                  type: string
+                  description: The clientID that's assigned to the organisation requesting access. When accepting a new organisation in the ecosystem, the expected client_id is defined. This should be an organisational identifier that is also present on the authentication certificate used by the client to sign the client_assertion. For NL organisations the most common clientID is the RSIN number on an eIDAS (QWAC) certificate, usually the organisation's tax number. 
+                  example: 123456789
+                client_assertion_type:
+                  type: string
+                  description: The value MUST be set to urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+                  example: urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+                client_assertion:
+                  type: string
+                  description: An assertion (a JSON web token) that the client will need to create by signing with the certificate they registered as credentials with the Scheme Authority.
+                  schema:          
+                    $ref: '#/components/schemas/client_assertion' 
+                    example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6ImNlcnRpZmljYXRlX2NoYWluIn0.eyJpc3MiOiJjbGllbnRfaWQiLCJzdWIiOiJjbGllbnRfaWQiLCJhdWQiOiJzZXJ2ZXJfZG9tYWluL29hdXRoMi4wL3Rva2VuIiwianRpIjoicGVuc2lvbnNjaGVtZS5jbGllbnRpZC4xMjM0NTY3ODkiLCJleHAiOjE1MTYyNDI2MjIsImlhdCI6MTUxNjIzOTAyMn0.qNzTzxeNhmVH9NLsYKx2gtjKk83wLRgWqm_i8i0lUXUDTtxb-uzZnPN65u7z2idMl-zPUrC3OlAyjuCZnZkht0mlwYQpb_yVXQd-DNwkutBtRnqAZ-heUmAQ6cSH4-ghrsrO86m2E7DfLjjgnA0WWkZLwpKvd4Zoa1kWi0IGee-Wxb1rSy7lXxfLw4bPB5m4wl-b5atRqbb3wuRVr5M8RlCuhJSBlNsXeXjvp9Z-zfr5fHX8uc44VU4Vf_MaqiQbFW8ApZGEJbkNIwNSlGE1NFeZitQW0i6KcYWLWtpT-MgnlUVxs1ywEj2BG6s-_Fkk4NrfSCX2amC1IlGnZXUfJw
+                status_token:
+                  type: string
+                  description: A token (signed by the Scheme Authority) that proves that the client is an approved and active participant of the pensionservices ecosystem.
+                  example: status_token
+      responses:
+        '200':
+           description: OK - Access token successfully obtained
+           content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    description: The access token
+                    example: aW2ys9NGE8RjHPZ4mytQivkWJO5HGQCYJ7VyMNGGDLIOw
+                  token_type:
+                    type: string
+                    description: Indicates the token type value. MUST be set to "Bearer". 
+                    enum: [Bearer]
+                  expires_at:
+                    type: integer
+                    example: 1714652341
+                    description: Expiry time of the access token (formatted in Unix epoch time). MUST be set to issuing timestamp + 3600 seconds. 
+                  scope: 
+                    type: string
+                    example: afsprakenstelsel_pensioenservices  
+                    description: Scope of the access token i.e. "afsprakenstelsel_pensioenservices" 
+        '400':
+          description: Bad request 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Request is missing required parameters or not properly formatted
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Invalid client credentials
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Client is not authorized to access requested resource
+
+  /pensionservices/v1/server_certificate:
+    get:
+      summary: Retrieve server certificate
+      description: Provides the signing certificate (X.509 certificate in base64 encoded PEM format) that is used by the server in the context of the pensionservices data sharing scheme. Can be used for validating the server identity, response signatures or the server's public key can be used to encrypt sensitive data towards the server.
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          example: Bearer 6c18c234b1b18b1d97c7043e2e41135c293d0da9
+          required: true
+          description: Bearer JWT Access Token - acquired through the token endpoint
+      responses:
+        '200':
+          description: OK - Successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/certificateResponse' 
+        '400':
+          description: Bad request 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Request is missing required parameters or not properly formatted
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Bearer token invalid
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Client is not authorized to access requested resource.
+     
+  /pensionservices/v1/consent:
+    post:
+      summary: Create consent
+      description: Provides new collected user consent to server. Server responds with a resource reference ID to be used for further reference to the consent. Resource reference ID must be URL encoded value. Request and response (2xx) MUST be signed using X-Timestamp and X-Signature headers.
+      parameters:
+        - in: header
+          name: Content-type
+          schema:
+            type: string
+          example: application/json
+          required: true
+          description: application/json
+        - in: header
+          name: X-Timestamp
+          schema:
+            type: string
+            format: int64
+          example: 1717106234
+          required: true
+          description: timestamp - current time in Unix epoch format 
+        - in: header
+          name: Signature
+          schema:
+            type: string    
+          example: RXhhbXBsZVJlc3BvbnNlU2lnbmF0dXJl
+          required: true
+          description: Base64 encoded request signature. Created by signing the signature base string (combining HTTP method, URL, body and X-Timestamp header values) using RS256 algorithm, with private key of the client.
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          example: Bearer 6c18c234b1b18b1d97c7043e2e41135c293d0da9
+          required: true
+          description: Bearer JWT Access Token - acquired through the token endpoint
+        - in: body
+          name: consentRegistration
+          required: true
+          description: describes consent registration data
+          schema:          
+             type: object
+             $ref: '#/components/schemas/consentRegistration'
+      responses:
+        '201':
+           description: Consent successfully created
+           headers:
+             X-Timestamp:
+               $ref: '#/components/headers/X-Timestamp' 
+             X-Signature:
+               $ref: '#/components/headers/SignatureResponse' 
+           content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  serverConsentID:
+                    type: string
+                    description: server resource ID of created consent, to be used for future supported operations by the client (e.g. PATCH)
+                    example: serverID.userID.consent123456 
+        '400':
+          description: Bad request 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Request is missing required parameters or not properly formatted
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Bearer token invalid
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Client is not authorized to access requested resource
+  /pensionservices/v1/consent/server_Consent_ID:
+    patch:
+      summary: Update consent
+      description: Send updated data to previously created consent at the server. Only requires the client to send values for attributes in the consentRegistration that are changed. Primarily used for revoking consent status or renewing the validity period. Request and response (2xx) MUST be signed using X-Timestamp and X-Signature headers.
+      parameters:
+        - in: path
+          name: server_Consent_ID
+          required: true
+          description: contains the consent resource reference ID that is shared by the server in the initial creation of a consent
+        - in: header
+          name: Content-type
+          schema:
+            type: string
+          example: application/json
+          required: true
+          description: application/json
+        - in: header
+          name: X-Timestamp
+          schema:
+            type: string
+            format: int64
+          example: 1717106234
+          required: true
+          description: timestamp - current time in Unix epoch format
+        - in: header
+          name: Signature
+          schema:
+            type: string    
+          example: RXhhbXBsZVJlc3BvbnNlU2lnbmF0dXJl
+          required: true
+          description: Base64 encoded request signature. Created by signing the signature base string (combining HTTP method, URL, body and X-Timestamp header values) using RS256 algorithm, with private key of the client.
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          example: Bearer 6c18c234b1b18b1d97c7043e2e41135c293d0da9
+          required: true
+          description: Bearer JWT Access Token - acquired through the token endpoint
+        - in: body
+          name: consentRegistration
+          required: true
+          description: describes consent registration data
+          schema:          
+             type: object
+             $ref: '#/components/schemas/consentRegistration'  
+      responses:
+        '200':
+           description: OK - Consent successfully updated
+           headers:
+             X-Timestamp:
+               $ref: '#/components/headers/X-Timestamp' 
+             X-Signature:
+               $ref: '#/components/headers/SignatureResponse'
+           content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  serverConsentID:
+                    type: string
+                    description: server resource ID of created consent, to be used for future supported operations by the client (e.g. PATCH)
+                    example: serverID.userID.consent123456 
+        '400':
+          description: Bad request 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Request is missing required parameters or not properly formatted
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Bearer token invalid
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Client is not authorized to access requested resource
+ 
+  /pensionservices/v1/participants/userinfo:
+    post:
+      summary: Retrieve participant personal data
+      description: Requests a set of personal data about a specific participant. Each pensionservice has an ID token scope associated with the service to ensure only the relevant specific set of personal data is shared. Only a subset of the example response will be returned based on requested scope. Request and response (2xx) MUST be signed using X-Timestamp and X-Signature headers.
+      parameters:
+        - in: header
+          name: Content-type
+          schema:
+            type: string
+          example: application/json
+          required: true
+          description: application/json
+        - in: header
+          name: X-Timestamp
+          schema:
+            type: string
+            format: int64
+          example: 1717106234
+          required: true
+          description: timestamp - current time in Unix epoch format
+        - in: header
+          name: Signature
+          schema:
+            type: string    
+          example: RXhhbXBsZVJlc3BvbnNlU2lnbmF0dXJl
+          required: true
+          description: Base64 encoded request signature. Created by signing the signature base string (combining HTTP method, URL, body and X-Timestamp header values) using RS256 algorithm, with private key of the client.
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+            example: Bearer 6c18c234b1b18b1d97c7043e2e41135c293d0da9
+          required: true
+          description: Bearer JWT Access Token - acquired through the token endpoint
+        - in: body
+          name: userInfoRequestbody
+          required: true
+          schema:          
+             type: object
+             $ref: '#/components/schemas/userInfoRequestbody'
+      responses:
+        '200':
+          description: OK - Successful request
+          headers:
+             X-Timestamp:
+               $ref: '#/components/headers/X-Timestamp' 
+             X-Signature:
+               $ref: '#/components/headers/SignatureResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userInfo' 
+        '400':
+          description: Bad request 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Request is missing required parameters or not properly formatted
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Bearer token invalid
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Client is not authorized to access requested resource
+
+  /pensionservices/v1/participants/entitlements/divorce:
+    post:
+      summary: Retrieve divorce calculations
+      description: Retrieves specific pension entitlement calculations specifically for divorce pensionservices). Request and response (2xx) MUST be signed using X-Timestamp and X-Signature headers.
+      parameters:
+        - in: header
+          name: Content-type
+          schema:
+            type: string
+          example: application/json
+          required: true
+          description: application/json
+        - in: header
+          name: X-Timestamp
+          schema:
+            type: string
+            format: int64
+          example: 1717106234
+          required: true
+          description: timestamp - current time in Unix epoch format
+        - in: header
+          name: Signature
+          schema:
+            type: string    
+          example: RXhhbXBsZVJlc3BvbnNlU2lnbmF0dXJl
+          required: true
+          description: Base64 encoded request signature. Created by signing the signature base string (combining HTTP method, URL, body and X-Timestamp header values) using RS256 algorithm, with private key of the client.
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+            example: Bearer 6c18c234b1b18b1d97c7043e2e41135c293d0da9
+          required: true
+          description: Bearer JWT Access Token - acquired through the token endpoint
+        - in: body
+          name: divorceCalculationRequestbody
+          required: true
+          schema:          
+             type: object
+             $ref: '#/components/schemas/divorceCalculationRequestbody'
+      responses:
+        '200':
+          description: OK - Successful request
+          headers:
+             X-Timestamp:
+               $ref: '#/components/headers/X-Timestamp' 
+             X-Signature:
+               $ref: '#/components/headers/SignatureResponse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/divorceResponse' 
+        '400':
+          description: Bad request 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Request is missing required parameters or not properly formatted
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Bearer token invalid
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Client is not authorized to access requested resource
+
+
+components:
+  headers:
+    X-Timestamp:
+      description: timestamp - current time in Unix epoch format
+      schema:
+        type: string
+        format: int64
+      example: 1717106234
+    SignatureRequest:
+      description: Base64 encoded request signature. Created by signing the signature base string (combining HTTP method, URL, body and X-Timestamp header values) using RS256 algorithm, with private key of the client.
+      schema:
+        type: string
+      example: RXhhbXBsZVJlc3BvbnNlU2lnbmF0dXJl
+    SignatureResponse:
+      description: Base64 encoded request signature. Created by signing the signature base string (combining HTTP method, URL, body and X-Timestamp header values) using RS256 algorithm, with private key of the server.
+      schema:
+        type: string
+      example: RXhhbXBsZVJlc3BvbnNlU2lnbmF0dXJl
+
+
+
+  schemas:
+     
+    TokenRequestBody:
+      type: object
+      properties:
+        grant_type:
+            type: string
+            description: OAuth 2.0 grant type MUST be set to client_credentials
+            example: client_credentials
+        scope:
+            type: string
+            description: The value passed for the scope parameter in this request should be "afsprakenstelsel_pensioenservices" 
+            example: afsprakenstelsel_pensioenservices               
+        client_id:
+            type: string
+            description: The clientID that's assigned to the organisation requesting access. When accepting a new organisation in the ecosystem, the expected client_id is defined. This should be an organisational identifier that is also present on the authentication certificate used by the client to sign the client_assertion. For NL organisations the most common clientID is the RSIN number on an eIDAS (QWAC) certificate, usually the organisation's tax number. 
+            example: 123456789
+        client_assertion_type:
+            type: string
+            description: The value MUST be set to urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+            example: urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+        client_assertion:
+            type: string
+            description: An assertion (a JSON web token) that the client will need to create by signing with the certificate they registered as credentials with the Scheme Authority.
+            example: client_assertion
+        status_token:
+            type: string
+            description: A token (signed by the Scheme Authority) that proves that the client is an approved and active participant of the pensionservices ecosystem.
+            example: status_token
+    
+    client_assertion:
+      type: string
+      description: contains a signed JWT (JSON Web Token) according to RFC7519. Formatted as a string, consisting of three values joined together with "."
+      example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6ImNlcnRpZmljYXRlX2NoYWluIn0.eyJpc3MiOiJjbGllbnRfaWQiLCJzdWIiOiJjbGllbnRfaWQiLCJhdWQiOiJzZXJ2ZXJfZG9tYWluL29hdXRoMi4wL3Rva2VuIiwianRpIjoicGVuc2lvbnNjaGVtZS5jbGllbnRpZC4xMjM0NTY3ODkiLCJleHAiOjE1MTYyNDI2MjIsImlhdCI6MTUxNjIzOTAyMn0.qNzTzxeNhmVH9NLsYKx2gtjKk83wLRgWqm_i8i0lUXUDTtxb-uzZnPN65u7z2idMl-zPUrC3OlAyjuCZnZkht0mlwYQpb_yVXQd-DNwkutBtRnqAZ-heUmAQ6cSH4-ghrsrO86m2E7DfLjjgnA0WWkZLwpKvd4Zoa1kWi0IGee-Wxb1rSy7lXxfLw4bPB5m4wl-b5atRqbb3wuRVr5M8RlCuhJSBlNsXeXjvp9Z-zfr5fHX8uc44VU4Vf_MaqiQbFW8ApZGEJbkNIwNSlGE1NFeZitQW0i6KcYWLWtpT-MgnlUVxs1ywEj2BG6s-_Fkk4NrfSCX2amC1IlGnZXUfJw
+      properties:
+        Header:
+          description: base64 URL encoded value of client_assertion_jwtheader object
+          example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6ImNlcnRpZmljYXRlX2NoYWluIn0
+        Payload:
+          description: base64 URL encoded value of client_assertion_jwtpayload object
+          example: eyJpc3MiOiJjbGllbnRfaWQiLCJzdWIiOiJjbGllbnRfaWQiLCJhdWQiOiJzZXJ2ZXJfZG9tYWluL29hdXRoMi4wL3Rva2VuIiwianRpIjoicGVuc2lvbnNjaGVtZS5jbGllbnRpZC4xMjM0NTY3ODkiLCJleHAiOjE1MTYyNDI2MjIsImlhdCI6MTUxNjIzOTAyMn0
+        Signature:
+          description: base64 URL encoded value of signature created according to JSON Web Signature spec (RFC7515) following RS256 algorithm
+          example: qNzTzxeNhmVH9NLsYKx2gtjKk83wLRgWqm_i8i0lUXUDTtxb-uzZnPN65u7z2idMl-zPUrC3OlAyjuCZnZkht0mlwYQpb_yVXQd-DNwkutBtRnqAZ-heUmAQ6cSH4-ghrsrO86m2E7DfLjjgnA0WWkZLwpKvd4Zoa1kWi0IGee-Wxb1rSy7lXxfLw4bPB5m4wl-b5atRqbb3wuRVr5M8RlCuhJSBlNsXeXjvp9Z-zfr5fHX8uc44VU4Vf_MaqiQbFW8ApZGEJbkNIwNSlGE1NFeZitQW0i6KcYWLWtpT-MgnlUVxs1ywEj2BG6s-_Fkk4NrfSCX2amC1IlGnZXUfJw
+    client_assertion_jwtheader:
+      type: object
+      properties:
+        alg:
+            type: string
+            description: Specifies the cryptographic algorithm used for creating the signature. MUST be set to RS256
+            example: RS256
+        typ:
+            type: string
+            description: Specifies the token type. MUST be set to JWT
+            example: JWT
+        x5c:
+            type: string
+            description: Specifies (a chain of) certificates used for signing and optionally issuing certificates leading up to trusted root. MUST be formatted according to x5c specification in RFC7515.
+            example: certificate_urlencoded_string 
+    client_assertion_jwtpayload:
+      type: object
+      properties:
+        iss:
+            type: string
+            description: Specifies the JWT Issuer. Typically the same entity that is the authorised subject for accessing APIs, or their service provider. Should be set to same client_id in token request.
+            example: client_id
+        sub:
+            type: string
+            description: Specifies the subject of the client assertion. MUST be set to the entity that is authorised to make use of pensionscheme APIs. MUST be set to client_id in the token request.
+            example: client_id
+        aud:
+            type: string
+            description: Specifies the intended audience that validates the client_assertion. Should be set to the API token request endpoint or other server identifier.
+            example: server_domain/oauth2.0/token
+        jti:
+            type: string
+            description: Unique identifier of the client_assertion JWT. Formatting to be defined by the client.
+            example: pensionscheme.clientid.123456789
+        exp:
+            type: integer
+            description: Expiry time for JWT. MUST be formatted in unix epoch time and should be "iat" + 3600.
+            example: 1675127056
+        iat:
+            type: integer
+            description: Issued at time for JWT. MUST be formatted in unix epoch time and should be the exact moment of JWT creation by the client.
+            example: 1675123456 
+
+    certificateResponse:
+      type: object
+      description: response for certificate GET request. 
+      properties:
+        certificate:
+          type: string
+          description: Contains the server X.509 certificate in base64 encoded PEM format. Includes the '-----BEGIN CERTIFICATE-----' and '-----END CERTIFICATE-----' delimiters.
+          example: -----BEGIN CERTIFICATE-----\nMIIDjDCCAnSgAwIBAgIUIJszbDZBoeDQE2XxTkz9S6UK6kAwDQYJKoZIhvcNAQELBQAwOjEUMBIGA1UECgwLZUlEQVMgUVRTUDEWMBQGA1UEAwwNZUlEQVMgUVRTUCBjYSBvYjAeFw0yNDA1MzAxMjAwMDBaFw0yNTA1MzAxMjAwMDBaMGIxGDAWBgNVBAoMD1BlbnNpb25zZXJ2aWNlczEfMB0GA1UECwwWUGVuc2lvbnNlcnZpY2VzIHBhcnRpY2lwYW50MRwwGgYDVQQDDBNQZW5zaW9uc2VydmljZXMgcGFydGljaXBhbnQgdW1teTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANdZtmQ0t9ibM0PPLR8IzFhFthcWcGvEYof0pVi4A4RsxfKMQd1UpW2TxPyAPIN35yxXE5hf2u1XthV2bb5CaQ2dsyu9AqU8/WiJk/jm+prKm0UhzZXYtDwMw1KzBrd1+k09v9hg5MmLphvv4ts2XtL5Oa1yYbZR6cUBjkSuOER2YsO5/62lgXtdSGHFT1UqIj7rWkqD9G3PExR8/UV7jYWtBoFoeqVJ4Pq6w0hM99ps8e1wbp2TpG7U1uHrVp2ZZzD8ZDL1G9TZGlf2ydXBDIf4dQJytj8VFtQHkY9zftPZk6k49xR+9eSbNSCxknSO+1o8V1zBNFFNML6TSNo+yz8CAwEAAaNTMFEwHQYDVR0OBBYEFJDmBXTceO3lVneQSuG7nh2yYH6GMB8GA1UdIwQYMBaAFJDmBXTceO3lVneQSuG7nh2yYH6GMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAHyzPrULImoP03Hb5v3LRyWZWxn8XxsF1hbUqk5s/DOvtF8k4vBv7Q9L6F+1kMCsUgpOkaMbK/JeDAZnMwFBElNg07gZ9S/N7DzBo4BbQsTjVUK9Zx5tDsm1gkXWOpFHRG/9Zb7+lO5ptDNWw73sqRuj3W2/Ym04oZ+e2GpT8GTUgxxXxz+z0MO4gCQsC00fzG2u/jtwx4bm0DP3qE9+zB2E3xXWh8zP8FTb9zgOQxxG8kNRh8TXA0vVV8X6zxlboHgWuxbIFGFdvK15rrDJXn6n0GZJW+REXjRpYBBRV1bVozGsOEHZjiBAvdXYjF/nqKuMjK3SKudn1F8bsUYZMWE=\n-----END CERTIFICATE-----
+
+    consentRegistration:
+      type: object
+      properties:
+        consentStatus:
+            $ref: '#/components/schemas/consentStatus'
+        consentAssertion:
+            $ref: '#/components/schemas/consentAssertion'
+        consentScope:
+            $ref: '#/components/schemas/consentScope'
+        consentContext:
+            $ref: '#/components/schemas/consentContext' 
+    consentStatus:
+      type: object
+      description: describes consent status
+      properties:
+        ConsentID:
+            type: string
+            required: true
+            description: Unique identifier of the consent
+            example: client_id.userID.123456
+        Approved:
+            type: boolean
+            required: true
+            description: Describes if consent is approved in true or false statement
+            example: true
+        Type:
+            type: string
+            required: true
+            description: Specifies the type of consent. MUST be set to single-use or recurring
+            example: recurring
+        Expiry:
+            type: integer
+            description: Optional property. In case of recurring consent type indicates the validity time of the consent in days
+            example: 90
+    consentAssertion:
+      type: object
+      description: describes involved entities to the consent and issuing timestamp
+      properties:
+        iss:
+            type: string
+            required: true
+            description: Specifies the JWT Issuer. Typically the same entity that is the authorised to act as "datadienst" and is responsible for retreiving consent, or their service provider. Should be set to same client_id in token request.
+            example: client_id
+        sub:
+            type: string
+            required: true
+            description: Specifies the subject of the client assertion. MUST be set to the BSN number of the individual that has provided consent. Optionally this value is encrypted with a key known to the server to prevent sharing BSN in readable format.
+            example: JWT
+        aud:
+            type: string
+            required: true
+            description: Specifies the intended audience that validates the client_assertion. Should be set to the API consent endpoint path or other server identifier.
+            example: server_domain/oauth2.0/token
+        exp:
+            type: integer
+            required: true
+            description: Expiry time for consent. MUST be formatted in unix epoch time. For single-use consent it should be set to "iat" + 3600, for recurring consent it should be set to "iat" + the time that is specified for the pensionservice scope.
+            example: 1675127056
+        iat:
+            type: integer
+            required: true
+            description: Issued at time for consent. MUST be formatted in unix epoch time and should be the exact moment of consent by the client.
+            example: 1675123456   
+    consentScope:
+      type: object
+      description: describes for what service the consent was provided
+      properties:
+        pensionService:
+            type: string
+            required: true
+            description: Details the service for which consent is provided.
+            example: Divorce
+    consentContext:
+      type: object
+      description: describes details of what the user was seeing during consent provisioning and what policies are in force
+      properties:
+        privacyPolicyVersion:
+            type: string
+            required: true
+            description: Specifies the version number of the privacy policy in force in the client's channel during consent creation.
+            example: 1.4.3
+        termsVersion:
+            type: string
+            required: true
+            description: Specifies the version number of the terms & conditions in force in the client's channel during consent creation.
+            example: JWT
+        URL:
+            type: string
+            required: true
+            description: Specifies the domain the user was visiting when providing consent.
+            example: server_domain/pensionservices/divorce_insight_tool
+        Explanation:
+            type: string
+            required: true
+            description: Describes the main on-screen explanatory text that was shown to the user when providing consent.
+            example: When you press 'accept' below, you consent to us collecting and processing your pensiondata for services related to providing insight into divorce. You also provide consent to your pensionprovider to make this data accesible for us.
+        Mechanism:
+            type: string
+            required: true
+            description: Details the mechanism used for providing consent, such as an ticking an opt-in box or clicking a buttong with action text.
+            example: Button with action text
+        actionText:
+            type: string
+            description: Optional, describes the specific action text for consent, such as 'I agree', 'I accept' or 'agree and continue'.
+            example: accept 
+
+    serverConsentID:
+      type: string
+      description: string containing a consent reference ID, as created by the server through the /consent API calls
+      example: serverID.userID.consent123456
+
+    userInfoRequestbody:
+      type: object
+      properties:
+        userInfoRequest:
+            $ref: '#/components/schemas/userInfoRequest'
+        serverConsentID:
+            $ref: '#/components/schemas/serverConsentID'
+    userInfoRequest:
+      type: object
+      properties:
+        bsn:
+           description: provides the BSN number of the user for which personal data is requested. BSN number MUST be shared only as an encrypted value using the server's public key. The public key is retrieved using the server_certificate API call.
+           example: KWe7$2O0A
+        fondsID:
+           description: provides the unique identifier of the pensionfund as expected data source. Commonly referred to as the U-code.
+           example: U0202
+        scope:
+           description: provides the requested scope for personal data. MUST only be one of the allowed scopes defined for specific pensionservices.
+           example: divorce_insight
+
+    userInfo:
+      type: object
+      description: Object possibly containing a variety of data available about the user. Depending on requested scope only a subset of data is returned.
+      properties:
+        userInfoIdentifier:
+            $ref: '#/components/schemas/userInfoIdentifier'
+        userInfoProfile:
+            $ref: '#/components/schemas/userInfoProfile'
+        userInfoAddress:
+            $ref: '#/components/schemas/userInfoAddress'
+        userInfoContact:
+            $ref: '#/components/schemas/userInfoContact'
+        userInfoPension:
+            $ref: '#/components/schemas/userInfoPension'
+        userInfoPartnerProfile:
+            $ref: '#/components/schemas/userInfoPartnerProfile'
+    userInfoIdentifier:
+      type: object
+      properties:
+        sub:
+          type: string
+          description: subject, unique identifier of the user at the Issuer
+          example: 1234512344
+        bsn:
+          type: string
+          description: BSN number, unique identifier of the user in the Netherlands. MUST only be shared as an encrypted value using the server's private key. The receiving client can decrypt the bsn value using the public key retrieved via the server_certificate API call.
+          example: M@a7R0$I;
+    userInfoProfile:
+      type: object
+      properties:
+        personal_title:
+          type: string
+          description: personal title of the user
+          example: Mr.
+        initials:
+          type: string
+          description: name initials followed by a '.'
+          example: A.B.
+        given_name:
+          type: string
+          description: given name(s) or first name(s) of the user separated by spaces
+          example: John
+        family_name:
+          type: string
+          description: surname(s) or last name(s) of the user separated by spaces
+          example: Doe
+        preferred_name:
+          type: string
+          description: optional alternative name preferred by the user if supported by the server, e.g. in case of marriage.
+          example: Johnny
+        gender:
+          type: string
+          description: registered gender of the user
+          example: male
+        birthdate:
+          type: string
+          description: birthdate of the user
+          example: 1985-02-21
+    userInfoAddress:
+      type: object
+      properties:
+        street_address:
+          type: string
+          description: Full street address, may include house number, appartment number, street name, Post Office box number
+          example: Hoofdweg 21a
+        locality:
+          type: string
+          description: City or locality component
+          example: Amsterdam
+        region:
+          type: string
+          description: state, province, prefecture or region component
+          example: Noord-Holland
+        postal_code:
+          type: string
+          description: Zip code or postal code component
+          example: 1234AB
+        country:
+          type: string
+          description: country name component
+          example: Nederland
+    userInfoContact:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Preferred e-mail address of the user
+          example: Johndoe@emailprovider.com
+        phone_number:
+          type: string
+          description: Preferred telephone number of the user including country prefix
+          example: +31612345678
+    userInfoPension:
+      type: object
+      properties:
+        reference:
+          type: string
+          description: contains reference number of the users pension agreement with a pensionfund
+          example: 1234567890
+        agreement_type:
+          type: string
+          decription: type of pension agreement. Can be 'uitkeringsregeling', 'premieregeling', 'kapitaalregeling'
+          example: uitkeringsregeling
+        duration:
+          type: string
+          description: duration of pension agreement. Can be 'tijdelijk', 'levenslang'
+          example: levenslang
+        agreement_startdate:
+          type: string
+          description: starting date since the user became a participant with the pensionfund
+          example: 2001-01-01
+        user_status:
+          type: string
+          description: describes the current status of the user with the pensionfund. Can be 'actief', 'slapend', 'gepensioneerd'
+          example: actief
+    userInfoPartnerProfile:
+      type: object
+      properties:
+        sub:
+          type: string
+          description: subject, unique identifier of the user's partner at the Issuer (only if the partner also has a personal pension agreement with the same pensionfund)
+          example: 1234512345
+        personal_title:
+          type: string
+          description: personal title of the user's partner
+          example: Mrs.
+        initials:
+          type: string
+          description: name initials followed by a '.'
+          example: C.D.
+        given_name:
+          type: string
+          description: given name(s) or first name(s) of the user's partner separated by spaces
+          example: Jane
+        family_name:
+          type: string
+          description: surname(s) or last name(s) of the user's partner separated by spaces
+          example: Johnsson
+        preferred_name:
+          type: string
+          description: optional alternative name preferred by the user's partner if supported by the server, e.g. in case of marriage.
+          example: Jane Doe
+        gender:
+          type: string
+          description: registered gender of the user's partner
+          example: female
+        birthdate:
+          type: string
+          description: birthdate of the user's partner
+          example: 1987-08-25
+        relation_type:
+          type: string
+          description: describes the type of relationship between participant and partner. Can be 'huwelijk' or 'geregistreerd partner'.
+          example: Gehuwd
+        relation_startdate:
+          type: string
+          description: official starting date of the formal relation between user and partner, e.g. wedding date
+          example: 2015-03-10
+        relation_enddate:
+          type: string
+          description: official enddate of the relation if applicable, e.g. divorce date or legal separation (scheiding tafel en bed).
+          example: 2023-08-22
+
+    divorceCalculationRequestbody:
+      type: object
+      properties:
+        divorceCalculationRequest:
+            $ref: '#/components/schemas/divorceCalculationRequest'
+        serverConsentID:
+            $ref: '#/components/schemas/serverConsentID'
+    divorceCalculationRequest:
+      type: object
+      properties:
+        bsn:
+           description: provides the BSN number of the user for which personal data is requested. BSN number MUST be shared only as an encrypted value using the server's public key. The public key is retrieved using the server_certificate API call.
+           example: KWe7$2O0A
+        fondsID:
+           description: provides the unique identifier of the pensionfund as expected data source. Commonly referred to as the U-code.
+           example: U0202
+        periodStart:
+           description: defines the date that must be used by the server as starting point for calculation of pension accrual. If value is not provided then the formal relation_startdate must be used that is known to the server.
+           example: 2023-01-01
+        periodEnd:
+           description: defines the date that must be used by the server as enddate for calculation of pension accrual. If the date is beyond current date then server can choose to estimate future values of pension accrual or provide error message that future dates are not supported. If value is not provided then the server needs to validate whether an enddate exists in pension adminstration (e.g. legal separation date), otherwise current date must be used.
+           example: 2023-01-07
+        divorceDivisionPercentage:
+           description: Should be percentage assigned to the person related to the BSN (e.g. the partner receives the 100 -/- this percentage. 
+           type: number
+           example: 50
+        divorceDivisionMethod:
+           description: Can be either 'verevening' or 'conversie'.
+           example: verevening
+        divorceAcceptanceBPP:
+           description: Indicates whether partner is accepting their allocated 'Bijzonder Partner Pensioen' (BPP) if applicable. True indicates that partner accepts the allocated BPP, which then needs to be considered in conversion calculations. False indicates partner is declining their BPP allocation.
+           example: true
+
+    divorceResponse:
+        type: object
+        properties:
+          divorceCalculationRequest:
+            $ref: '#/components/schemas/divorceCalculationRequest'
+          serverConsentID:
+            $ref: '#/components/schemas/serverConsentID'
+          divorceCalculationResult:
+            $ref: '#/components/schemas/divorceCalculationResult'
+    divorceCalculationResult:
+        type: object
+        properties:
+          pensionAgreement:
+            $ref: '#/components/schemas/pensionAgreement'
+          entitlementOldAge:
+            $ref: '#/components/schemas/entitlementOldAge'
+          entitlementOldAgePartner:
+            $ref: '#/components/schemas/entitlementOldAgePartner'
+          entitlementBijzonderPartnerPensioen:
+            $ref: '#/components/schemas/entitlementBijzonderPartnerPensioen'
+    pensionAgreement:
+      type: object
+      properties:
+        agreement_type:
+          type: string
+          decription: type of pension agreement. Can be 'uitkeringsregeling', 'premieregeling', 'kapitaalregeling'
+          example: uitkeringsregeling
+        duration:
+          type: string
+          description: duration of pension agreement. Can be 'tijdelijk', 'levenslang'
+          example: levenslang
+    entitlementOldAge:
+      type: object
+      properties:
+        monthly_entitlement_before:
+          type: number
+          decription: Expected montly old age pension entitlement (EUR) before division of pension due to divorce.
+          example: 2000
+        monthly_entitlement_after:
+          type: number
+          decription: Expected montly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
+          example: 1000
+        commutation_test:
+          type: string
+          description: Indicates whether resulting entitlement exceeds legal minimum for commutation of pension. Entitlements falling below the commutation limit cannot be divided. Must be either 'success' (commutation limit is met) or 'failed' (commutation limit is not met).
+          example: Success
+    entitlementOldAgePartner:
+      type: object
+      properties:
+        monthly_entitlement_before:
+          type: number
+          decription: Partner's expected montly old age pension entitlement (EUR) before division of pension due to divorce.
+          example: 0
+        monthly_entitlement_after:
+          type: number
+          decription: Partner's expected montly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
+          example: 1000
+        commutation_test:
+          type: string
+          description: Indicates whether resulting entitlement exceeds legal minimum for commutation of pension. Entitlements falling below the commutation limit cannot be divided. Must be either 'success' (commutation limit is met) or 'failed' (commutation limit is not met).
+          example: Success
+    entitlementBijzonderPartnerPensioen:
+      type: object
+      properties:
+        monthly_bpp_accrual_before:
+          type: number
+          decription: Current accrual of BPP as a reservation for the partner in case when the participant passes away.
+          example: 800
+        monthly_bpp_accrual_after:
+          type: number
+          decription: Accrued BPP after applying divorce division parameters. Remains the same in case of declined BPP acceptance or accepted with verevening method. Is reset to 0 when BPP is accepted by the partner and conversion is applied.
+          example: 800     
+ 
+
+  securitySchemes:
+    auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          scopes:
+            write:access: Make changes
+            read:access: Retrieve data
