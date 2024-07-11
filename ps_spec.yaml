@@ -465,11 +465,11 @@ paths:
           required: true
           description: Bearer JWT Access Token - acquired through the token endpoint
         - in: body
-          name: scheidingBerekeningVerzoekbody
+          name: scheidingBerekeningVerzoekBody
           required: true
           schema:          
              type: object
-             $ref: '#/components/schemas/scheidingBerekeningVerzoekbody'
+             $ref: '#/components/schemas/scheidingBerekeningVerzoekBody'
       responses:
         '200':
           description: OK - Successful request
@@ -755,7 +755,7 @@ components:
     userInfoRequest:
       type: object
       properties:
-        bsn:
+        burgerServiceNummer:
            description: provides the BSN number of the user for which personal data is requested. BSN number MUST be shared only as an encrypted value using the server's public key. The public key is retrieved using the server_certificate API call.
            example: KWe7$2O0A
         fondsID:
@@ -788,7 +788,7 @@ components:
           type: string
           description: subject, unique identifier of the user at the Issuer
           example: 1234512344
-        bsn:
+        burgerServiceNummer:
           type: string
           description: BSN number, unique identifier of the user in the Netherlands. MUST only be shared as an encrypted value using the server's private key. The receiving client can decrypt the bsn value using the public key retrieved via the server_certificate API call.
           example: M@a7R0$I;
@@ -860,23 +860,23 @@ components:
     userInfoPensioen:
       type: object
       properties:
-        deelnemer_referentie_id:
+        deelnemerReferentieID:
           type: string
           description: contains reference number of the users pension agreement with a pensionfund
           example: 1234567890
-        regelingsType:
+        typeRegeling:
           type: string
           description: type of pension agreement. Can be 'uitkeringsregeling', 'premieregeling', 'kapitaalregeling'
           example: uitkeringsregeling
-        regelingsDuur:
+        looptijd:
           type: string
           description: duration of pension agreement. Can be 'tijdelijk', 'levenslang'
           example: levenslang
-        regelings_startdatum:
+        regelingStartdatum:
           type: string
           description: starting date since the user became a participant with the pensionfund
           example: 2001-01-01
-        deelnemer_status:
+        deelnemerStatus:
           type: string
           description: describes the current status of the user with the pensionfund. Can be 'actief', 'slapend', 'gepensioneerd'
           example: actief
@@ -928,7 +928,7 @@ components:
           description: official enddate of the relation if applicable, e.g. divorce date or legal separation (scheiding tafel en bed).
           example: 2023-08-22
 
-    scheidingBerekeningVerzoekbody:
+    scheidingBerekeningVerzoekBody:
       type: object
       properties:
         scheidingBerekeningVerzoek:
@@ -938,16 +938,16 @@ components:
     scheidingBerekeningVerzoek:
       type: object
       properties:
-        bsn:
+        burgerServiceNummer:
            description: provides the BSN number of the user for which personal data is requested. BSN number MUST be shared only as an encrypted value using the server's public key. The public key is retrieved using the server_certificate API call.
            example: KWe7$2O0A
         fondsID:
            description: provides the unique identifier of the pensionfund as expected data source. Commonly referred to as the U-code.
            example: U0202
-        periodStart:
+        periodeStart:
            description: defines the date that must be used by the server as starting point for calculation of pension accrual. If value is not provided then the formal relation_startdate must be used that is known to the server.
            example: 2023-01-01
-        periodEnd:
+        periodeEinde:
            description: defines the date that must be used by the server as enddate for calculation of pension accrual. If the date is beyond current date then server can choose to estimate future values of pension accrual or provide error message that future dates are not supported. If value is not provided then the server needs to validate whether an enddate exists in pension adminstration (e.g. legal separation date), otherwise current date must be used.
            example: 2023-01-07
         scheidingVerdelingsPercentage:
@@ -984,57 +984,56 @@ components:
     pensioenRegeling:
       type: object
       properties:
-        regelingsType:
+        typeRegeling:
           type: string
           description: type of pension agreement. Can be 'uitkeringsregeling', 'premieregeling', 'kapitaalregeling'
           example: uitkeringsregeling
-        regelingsDuur:
+        looptijd:
           type: string
           description: duration of pension agreement. Can be 'tijdelijk' or 'levenslang'
           example: levenslang
     aanspraakOuderdomspensioen:
       type: object
       properties:
-        maandelijkse_aanspraak_voor:
+        maandBedragVoor:
           type: number
           description: Expected montly old age pension entitlement (EUR) before division of pension due to divorce.
           example: 2000
-        maandelijkse_aanspraak_na:
+        maandBedragNa:
           type: number
           description: Expected montly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
           example: 1000
-        afkoopgrens_test:
+        afkoopgrensTest:
           type: string
           description: Indicates whether resulting entitlement exceeds legal minimum for commutation of pension. Entitlements falling below the commutation limit cannot be divided. Must be either 'success' (commutation limit is met) or 'failed' (commutation limit is not met).
           example: Success
     aanspraakOuderdomspensioenPartner:
       type: object
       properties:
-        maandelijkse_aanspraak_voor:
+        maandBedragVoor:
           type: number
           description: Partner's expected montly old age pension entitlement (EUR) before division of pension due to divorce.
           example: 0
-        maandelijkse_aanspraak_na:
+        maandBedragNa:
           type: number
           description: Partner's expected montly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
           example: 1000
-        afkoopgrens_test:
+        afkoopgrensTest:
           type: string
           description: Indicates whether resulting entitlement exceeds legal minimum for commutation of pension. Entitlements falling below the commutation limit cannot be divided. Must be either 'success' (commutation limit is met) or 'failed' (commutation limit is not met).
           example: Success
     aanspraakBijzonderPartnerPensioen:
       type: object
       properties:
-        maandelijkse_bpp_opbouw_voor:
+        maandBedragVoor:
           type: number
           description: Current accrual of BPP as a reservation for the partner in case when the participant passes away.
           example: 800
-        maandelijkse_bpp_opbouw_na:
+        maandBedragNa:
           type: number
           description: Accrued BPP after applying divorce division parameters. Remains the same in case of declined BPP acceptance or accepted with verevening method. Is reset to 0 when BPP is accepted by the partner and conversion is applied.
           example: 800     
  
-
   securitySchemes:
     auth:
       type: oauth2
