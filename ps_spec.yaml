@@ -950,11 +950,11 @@ components:
         periodEnd:
            description: defines the date that must be used by the server as enddate for calculation of pension accrual. If the date is beyond current date then server can choose to estimate future values of pension accrual or provide error message that future dates are not supported. If value is not provided then the server needs to validate whether an enddate exists in pension adminstration (e.g. legal separation date), otherwise current date must be used.
            example: 2023-01-07
-        scheidingVerdelingPercentage:
+        scheidingVerdelingsPercentage:
            description: Should be percentage assigned to the person related to the BSN (e.g. the partner receives the 100 -/- this percentage. 
            type: number
            example: 50
-        scheidingVerdelingMethode:
+        scheidingVerdelingsMethode:
            description: Can be either 'verevening' or 'conversie'.
            example: verevening
         scheidingPartnerAcceptatieBPP:
