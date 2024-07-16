@@ -157,7 +157,7 @@ paths:
                     description: The server's error response
                     example: Client is not authorized to access requested resource.
      
-  /pensionservices-scheme/v1.0/consents:
+  /pensionservices-scheme/v1.0/participants/consents:
     post:
       summary: Create consent
       description: Provides new collected user consent to server. Server responds with a resource reference ID to be used for further reference to the consent. Resource reference ID must be URL encoded value. Request and response (2xx) MUST be signed using X-Timestamp and X-Signature headers.
