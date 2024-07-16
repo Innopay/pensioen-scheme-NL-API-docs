@@ -943,7 +943,7 @@ components:
       type: object
       properties:
         scheidingBerekeningParameters:
-            $ref: '#/components/schemas/scheidingBerekeningVerzoek'
+            $ref: '#/components/schemas/scheidingBerekeningParameters'
         serverConsentId:
             $ref: '#/components/schemas/serverConsentId'
     scheidingBerekeningParameters:
