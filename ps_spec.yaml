@@ -379,11 +379,26 @@ paths:
           required: true
           description: Bearer JWT Access Token - acquired through the token endpoint
         - in: body
-          name: userInfoRequestbody
+          name: scope
+          required: true
+          schema:          
+             type: string
+             example: divorce-inform
+          description: Describes the data scope that is requested within all personal data of a participant. MUST be one of the pre-defined scopes within the pensionservices scheme. For divorce these are "divorce-inform" and "divorce-confirm".
+        - in: body
+          name: serverConsentId
+          required: true
+          schema:          
+             type: string
+             $ref: '#/components/schemas/serverConsentId'
+          description: Reference to the relevant consent resource that is registered server-side
+        - in: body
+          name: userInfoParameters
           required: true
           schema:          
              type: object
-             $ref: '#/components/schemas/userInfoRequestbody'
+             $ref: '#/components/schemas/userInfoParameters'
+          description: Contains the input parameters the datasource needs to return specific personal data attributes
       responses:
         '200':
           description: OK - Successful request
@@ -695,13 +710,13 @@ components:
         subject:
             type: string
             required: true
-            description: Specifies the subject of the client assertion. MUST be set to the BSN number of the individual that has provided consent. Optionally this value is encrypted with a key known to the server to prevent sharing BSN in readable format.
-            example: JWT
+            description: Specifies the subject of the client assertion. MUST be set to the BSN number of the individual that has provided consent. BSN value must only be shared as encrypted value using the public key of the server, obtained through the /server-certificate API call.
+            example: KWe7$2O0A
         audience:
             type: string
             required: true
             description: Specifies the intended audience that validates the client_assertion. Should be set to the API consent endpoint path or other server identifier.
-            example: server_domain/oauth2.0/token
+            example: https://api.server_domain/pensionservices-scheme/v1.0/participants/consents
         expiresAt:
             type: integer
             required: true
@@ -734,7 +749,7 @@ components:
             type: string
             required: true
             description: Specifies the version number of the terms & conditions in force in the client's channel during consent creation.
-            example: JWT
+            example: 1.1.8
         url:
             type: string
             required: true
@@ -760,25 +775,15 @@ components:
       description: string containing a consent reference, identifying the consent resource that is stored server-side. Formatting to be defined by the server. Not to be confused with clientConsentId, which references a consent that is stored on client-side.
       example: serverId.userId.consent123456
 
-    userInfoRequestbody:
+    userInfoParameters:
       type: object
       properties:
-        userInfoRequest:
-            $ref: '#/components/schemas/userInfoRequest'
-        serverConsentId:
-            $ref: '#/components/schemas/serverConsentId'
-    userInfoRequest:
-      type: object
-      properties:
-        burgerServiceNummer:
+        burgerServiceNummerEncrypted:
            description: provides the BSN number of the user for which personal data is requested. BSN number MUST be shared only as an encrypted value using the server's public key. The public key is retrieved using the server_certificate API call.
            example: KWe7$2O0A
         fondsId:
            description: provides the unique identifier of the pensionfund as expected data source. Commonly referred to as the U-code.
            example: U0202
-        scope:
-           description: provides the requested scope for personal data. MUST only be one of the allowed scopes defined for specific pensionservices. For divorce these are divorce-inform and divorce-confirm.
-           example: divorce-inform
 
     userInfo:
       type: object
@@ -803,7 +808,7 @@ components:
           type: string
           description: subject, unique identifier of the user at the datasource
           example: 1234512344
-        burgerServiceNummer:
+        burgerServiceNummerEncrypted:
           type: string
           description: BSN number, unique identifier of the user in the Netherlands. MUST only be shared as an encrypted value using the server's private key. The receiving client can decrypt the bsn value using the public key retrieved via the server_certificate API call.
           example: M@a7R0$I;
@@ -951,7 +956,7 @@ components:
     scheidingBerekeningParameters:
       type: object
       properties:
-        burgerServiceNummer:
+        burgerServiceNummerEncrypted:
            description: provides the BSN number of the user for which personal data is requested. BSN number MUST be shared only as an encrypted value using the server's public key. The public key is retrieved using the server_certificate API call.
            example: KWe7$2O0A
         fondsId:
