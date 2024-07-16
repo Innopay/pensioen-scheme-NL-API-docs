@@ -798,7 +798,7 @@ components:
         userInfoContact:
             $ref: '#/components/schemas/userInfoContact'
         userInfoPensioen:
-            $ref: '#/components/schemas/userInfoPensioen'
+            $ref: '#/components/schemas/userInfoPension'
         userInfoPartnerProfile:
             $ref: '#/components/schemas/userInfoPartnerProfile'
     userInfoIdentifier:
@@ -889,7 +889,7 @@ components:
           type: string
           description: Preferred telephone number of the user including country prefix
           example: +31612345678
-    userInfoPensioen:
+    userInfoPension:
       type: object
       properties:
         polisnummerRegeling:
