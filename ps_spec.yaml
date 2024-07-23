@@ -735,7 +735,7 @@ components:
             type: string
             required: true
             description: Details the service for which consent is provided.
-            example: Divorce
+            example: divorce_inform
     consentContext:
       type: object
       description: describes details of what the user was seeing during consent provisioning and what policies are in force
@@ -801,6 +801,10 @@ components:
             $ref: '#/components/schemas/userInfoPension'
         userInfoPartnerProfile:
             $ref: '#/components/schemas/userInfoPartnerProfile'
+        userInfoPartnerAddress:
+            $ref: '#/components/schemas/userInfoAddress'
+        userInfoPartnerContact:
+            $ref: '#/components/schemas/userInfoContact'
     userInfoIdentifier:
       type: object
       properties:
@@ -889,6 +893,10 @@ components:
           type: string
           description: Preferred telephone number of the user including country prefix
           example: +31612345678
+        bankrekeningnummer:
+          type: string
+          description: Preferred bankaccount (as IBAN)
+          example: NL11RABO011111111
     userInfoPension:
       type: object
       properties:
