@@ -666,6 +666,7 @@ components:
 
     consentRegistration:
       type: object
+      required: true
       properties:
         consentStatus:
             $ref: '#/components/schemas/consentStatus'
@@ -678,6 +679,7 @@ components:
     consentStatus:
       type: object
       description: describes consent status
+      required: true
       properties:
         clientConsentId:
             type: string
@@ -701,6 +703,7 @@ components:
     consentAssertion:
       type: object
       description: describes involved entities to the consent and issuing timestamp
+      required: true
       properties:
         issuer:
             type: string
@@ -730,6 +733,7 @@ components:
     consentScope:
       type: object
       description: describes for what service the consent was provided
+      required: true
       properties:
         pensionService:
             type: string
@@ -739,6 +743,7 @@ components:
     consentContext:
       type: object
       description: describes details of what the user was seeing during consent provisioning and what policies are in force
+      required: true
       properties:
         privacyPolicyVersion:
             type: string
