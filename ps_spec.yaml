@@ -48,7 +48,7 @@ paths:
                   example: status_token
       responses:
         '200':
-           description: OK - Access token successfully obtained
+           description: OK - Access token Successfully obtained
            content:
             application/json:
               schema:
@@ -200,7 +200,7 @@ paths:
              $ref: '#/components/schemas/consentRegistration'
       responses:
         '201':
-           description: Consent successfully created
+           description: Consent Successfully created
            headers:
              X-Timestamp:
                $ref: '#/components/headers/X-Timestamp' 
@@ -295,7 +295,7 @@ paths:
              $ref: '#/components/schemas/consentRegistration'  
       responses:
         '200':
-           description: OK - Consent successfully updated
+           description: OK - Consent Successfully updated
            headers:
              X-Timestamp:
                $ref: '#/components/headers/X-Timestamp' 
@@ -1050,7 +1050,7 @@ components:
           example: 1000
         afkoopgrensTest:
           type: string
-          description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'success' (division limit is met) or 'failed' (division limit is not met).
+          description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'Success' (division limit is met) or 'Failed' (division limit is not met).
           example: Success
     aanspraakOuderdomspensioenPartner:
       type: object
@@ -1066,7 +1066,7 @@ components:
           example: 1000
         afkoopgrensTest:
           type: string
-          description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'success' (division limit is met) or 'failed' (division limit is not met).
+          description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'Success' (division limit is met) or 'Failed' (division limit is not met).
           example: Success
     aanspraakTijdelijkPensioen:
       type: object
@@ -1082,7 +1082,7 @@ components:
           example: 1000
         afkoopgrensTest:
           type: string
-          description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'success' (division limit is met) or 'failed' (division limit is not met).
+          description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'Success' (division limit is met) or 'Failed' (division limit is not met).
           example: Success
     aanspraakTijdelijkPensioenPartner:
       type: object
@@ -1098,7 +1098,7 @@ components:
           example: 1000
         afkoopgrensTest:
           type: string
-          description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'success' (division limit is met) or 'failed' (division limit is not met).
+          description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'Success' (division limit is met) or 'Failed' (division limit is not met).
           example: Success
     aanspraakBijzonderPartnerPensioen:
       type: object
