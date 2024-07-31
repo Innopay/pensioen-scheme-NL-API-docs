@@ -696,7 +696,7 @@ components:
             required: true
             description: Specifies the type of consent. MUST be set to single-use or recurring
             example: recurring
-        validity:
+        maximumValidity:
             type: integer
             description: Optional property. In case of recurring consent type indicates the validity time of the consent in days
             example: 90
