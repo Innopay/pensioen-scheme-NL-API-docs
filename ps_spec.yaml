@@ -686,7 +686,7 @@ components:
             type: boolean
             description: Describes if consent is approved in true or false statement
             example: true
-        type:
+        consentType:
             type: string
             description: Specifies the type of consent. MUST be set to single-use or recurring
             example: recurring
