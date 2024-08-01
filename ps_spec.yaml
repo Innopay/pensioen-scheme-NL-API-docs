@@ -195,8 +195,7 @@ paths:
           name: consentRegistration
           required: true
           description: describes consent registration data
-          schema:          
-             type: object
+          schema:
              $ref: '#/components/schemas/consentRegistration'
       responses:
         '201':
@@ -257,6 +256,8 @@ paths:
           name: serverConsentId
           required: true
           description: contains the consent resource reference ID that is obtained through the server response when creating a new consent resource
+          schema: 
+            type: string
         - in: header
           name: Content-type
           schema:
@@ -291,7 +292,6 @@ paths:
           required: true
           description: describes consent registration data
           schema:          
-             type: object
              $ref: '#/components/schemas/consentRegistration'  
       responses:
         '200':
@@ -665,7 +665,6 @@ components:
 
     consentRegistration:
       type: object
-      required: true
       properties:
         consentStatus:
             $ref: '#/components/schemas/consentStatus'
@@ -678,21 +677,17 @@ components:
     consentStatus:
       type: object
       description: describes consent status
-      required: true
       properties:
         clientConsentId:
             type: string
-            required: true
             description: Unique identifier of the consent for referencing consent resources that are stored client-side. Formatting to be decided by the client. Not to be confused with serverConsentId, which is a reference ID to consents that are stored server-side
             example: clientId.userId.123456
         approved:
             type: boolean
-            required: true
             description: Describes if consent is approved in true or false statement
             example: true
         type:
             type: string
-            required: true
             description: Specifies the type of consent. MUST be set to single-use or recurring
             example: recurring
         maximumValidity:
@@ -702,71 +697,57 @@ components:
     consentAssertion:
       type: object
       description: describes involved entities to the consent and issuing timestamp
-      required: true
       properties:
         issuer:
             type: string
-            required: true
             description: Specifies the JWT Issuer. Typically the same entity that is the authorised to act as "datadienst" and is responsible for retreiving consent, or their service provider. Should be set to same client_id in token request.
             example: client_id
         subject:
             type: string
-            required: true
             description: Specifies the subject of the client assertion. MUST be set to the BSN number of the individual that has provided consent. BSN value must only be shared as encrypted value using the public key of the server, obtained through the /server-certificate API call.
             example: KWe7$2O0A
         audience:
             type: string
-            required: true
             description: Specifies the intended audience that validates the client_assertion. Should be set to the API consent endpoint path or other server identifier.
             example: https://api.server_domain/pensionservices-scheme/v1.0/participants/consents
         expiresAt:
             type: integer
-            required: true
             description: Expiry time for consent. MUST be formatted in unix epoch time. For single-use consent it should be set to "iat" + 3600, for recurring consent it should be set to "iat" + the time that is specified for the pensionservice scope.
             example: 1675127056
         issuedAt:
             type: integer
-            required: true
             description: Issued at time for consent. MUST be formatted in unix epoch time and should be the exact moment of consent by the client.
             example: 1675123456   
     consentScope:
       type: object
       description: describes for what service the consent was provided
-      required: true
       properties:
         pensionService:
             type: string
-            required: true
             description: Details the service for which consent is provided.
             example: divorce_inform
     consentContext:
       type: object
       description: describes details of what the user was seeing during consent provisioning and what policies are in force
-      required: true
       properties:
         privacyPolicyVersion:
             type: string
-            required: true
             description: Specifies the version number of the privacy policy in force in the client's channel during consent creation.
             example: 1.4.3
         termsVersion:
             type: string
-            required: true
             description: Specifies the version number of the terms & conditions in force in the client's channel during consent creation.
             example: 1.1.8
         url:
             type: string
-            required: true
             description: Specifies the domain the user was visiting when providing consent.
             example: server_domain/pensionservices/divorce_insight_tool
         explanatoryText:
             type: string
-            required: true
             description: Describes the main on-screen explanatory text that was shown to the user when providing consent.
             example: When you press 'accept' below, you consent to us collecting and processing your pensiondata for services related to providing insight into divorce. You also provide consent to your pensionprovider to make this data accesible for us.
         provisionMechanism:
             type: string
-            required: true
             description: Details the mechanism used for providing consent, such as an ticking an opt-in box or clicking a buttong with action text.
             example: Button with action text
         mechanismText:
