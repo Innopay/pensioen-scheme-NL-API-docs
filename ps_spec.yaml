@@ -482,21 +482,21 @@ paths:
         - in: body
           name: scope
           required: true
-          schema:          
+          schema:
              type: string
              example: scheidingBerekening
           description: Describes the data scope that is requested within all entitlement data of a participant. MUST be one of the pre-defined scopes within the pensionservices scheme.
         - in: body
           name: serverConsentId
           required: true
-          schema:          
+          schema:
              type: string
              $ref: '#/components/schemas/serverConsentId'
           description: Reference to the relevant consent resource that is registered server-side
         - in: body
           name: scheidingBerekeningParameters
           required: true
-          schema:          
+          schema:
              type: object
              $ref: '#/components/schemas/scheidingBerekeningParameters'
           description: Contains the input parameters the datasource needs to include for making calculations
