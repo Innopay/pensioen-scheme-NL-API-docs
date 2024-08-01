@@ -497,7 +497,6 @@ paths:
           name: scheidingBerekeningParameters
           required: true
           schema:
-             type: object
              $ref: '#/components/schemas/scheidingBerekeningParameters'
           description: Contains the input parameters the datasource needs to include for making calculations
       responses:
