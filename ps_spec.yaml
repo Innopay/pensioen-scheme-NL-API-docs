@@ -295,7 +295,7 @@ paths:
           required: true
           description: describes consent registration data
           schema:          
-             $ref: '#/components/schemas/consentRegistration'  
+             $ref: '#/components/schemas/consentRegistrationPATCH'  
       responses:
         '200':
            description: OK - Consent Successfully updated
@@ -746,6 +746,17 @@ components:
         - consentAssertion
         - consentScope
         - consentContext
+    consentRegistrationPATCH:
+      type: object
+      properties:
+        consentStatus:
+            $ref: '#/components/schemas/consentStatus'
+        consentAssertion:
+            $ref: '#/components/schemas/consentAssertion'
+        consentScope:
+            $ref: '#/components/schemas/consentScope'
+        consentContext:
+            $ref: '#/components/schemas/consentContext'
     consentStatus:
       type: object
       description: describes consent status
