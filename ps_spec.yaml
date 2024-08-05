@@ -16,7 +16,39 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/TokenRequestBody'
+              type: object
+              properties:
+                grant_type:
+                  type: string
+                  description: OAuth 2.0 grant type MUST be set to client_credentials
+                  example: client_credentials
+                scope:
+                  type: string
+                  description: The value passed for the scope parameter in this request should be "afsprakenstelsel_pensioenservices" 
+                  example: afsprakenstelsel_pensioenservices
+                client_id:
+                  type: string
+                  description: The clientID that's assigned to the organisation requesting access. When accepting a new organisation in the ecosystem, the expected client_id is defined. This should be an organisational identifier that is also present on the authentication certificate used by the client to sign the client_assertion. For NL organisations, the most common clientID is the RSIN number on an eIDAS (QWAC) certificate, usually the organisation's tax number.
+                  example: 123456789
+                client_assertion_type:
+                  type: string
+                  description: The value MUST be set to urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+                  example: urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+                client_assertion:
+                  type: string
+                  description: An assertion (a JSON web token) that the client will need to create by signing with the certificate they registered as credentials with the Scheme Authority.
+                  example: client_assertion
+                status_token:
+                  type: string
+                  description: A token (signed by the Scheme Authority) that proves that the client is an approved and active participant of the pensionservices ecosystem and is authorized to access APIs related to pensionservices scheme.
+                  example: status_token
+              required:
+                - grant_type
+                - scope
+                - client_id
+                - client_assertion_type
+                - client_assertion
+                - status_token
       responses:
         '200':
            description: OK - Access token Successfully obtained
@@ -617,41 +649,6 @@ components:
 
 
   schemas:
-     
-    tokenRequestBody:
-      type: object
-      properties:
-        grant_type:
-            type: string
-            description: OAuth 2.0 grant type MUST be set to client_credentials
-            example: client_credentials
-        scope:
-            type: string
-            description: The value passed for the scope parameter in this request should be "afsprakenstelsel_pensioenservices" 
-            example: afsprakenstelsel_pensioenservices               
-        client_id:
-            type: string
-            description: The clientID that's assigned to the organisation requesting access. When accepting a new organisation in the ecosystem, the expected client_id is defined. This should be an organisational identifier that is also present on the authentication certificate used by the client to sign the client_assertion. For NL organisations the most common clientID is the RSIN number on an eIDAS (QWAC) certificate, usually the organisation's tax number. 
-            example: 123456789
-        client_assertion_type:
-            type: string
-            description: The value MUST be set to urn:ietf:params:oauth:client-assertion-type:jwt-bearer
-            example: urn:ietf:params:oauth:client-assertion-type:jwt-bearer
-        client_assertion:
-            type: string
-            description: An assertion (a JSON web token) that the client will need to create by signing with the certificate they registered as credentials with the Scheme Authority.
-            example: client_assertion
-        status_token:
-            type: string
-            description: A token (signed by the Scheme Authority) that proves that the client is an approved and active participant of the pensionservices ecosystem and is authorized to access APIs related to pensionservices scheme.
-            example: status_token
-      required:
-        - grant_type
-        - scope
-        - client_id
-        - client_assertion_type
-        - client_assertion
-        - status_token
     client_assertion:
       type: string
       description: contains a signed JWT (JSON Web Token) according to RFC7519. Formatted as a string, consisting of three values joined together with "."
