@@ -674,7 +674,13 @@ components:
             type: string
             description: A token (signed by the Scheme Authority) that proves that the client is an approved and active participant of the pensionservices ecosystem and is authorized to access APIs related to pensionservices scheme.
             example: status_token
-    
+      required:
+        - grant_type
+        - scope
+        - client_id
+        - client_assertion_type
+        - client_assertion
+        - status_token
     client_assertion:
       type: string
       description: contains a signed JWT (JSON Web Token) according to RFC7519. Formatted as a string, consisting of three values joined together with "."
@@ -689,6 +695,10 @@ components:
         Signature:
           description: base64 URL encoded value of signature created according to JSON Web Signature spec (RFC7515) following RS256 algorithm
           example: qNzTzxeNhmVH9NLsYKx2gtjKk83wLRgWqm_i8i0lUXUDTtxb-uzZnPN65u7z2idMl-zPUrC3OlAyjuCZnZkht0mlwYQpb_yVXQd-DNwkutBtRnqAZ-heUmAQ6cSH4-ghrsrO86m2E7DfLjjgnA0WWkZLwpKvd4Zoa1kWi0IGee-Wxb1rSy7lXxfLw4bPB5m4wl-b5atRqbb3wuRVr5M8RlCuhJSBlNsXeXjvp9Z-zfr5fHX8uc44VU4Vf_MaqiQbFW8ApZGEJbkNIwNSlGE1NFeZitQW0i6KcYWLWtpT-MgnlUVxs1ywEj2BG6s-_Fkk4NrfSCX2amC1IlGnZXUfJw
+      required:
+        - Header
+        - Payload
+        - Signature
     client_assertion_jwtheader:
       type: object
       properties:
@@ -703,7 +713,11 @@ components:
         x5c:
             type: string
             description: Specifies (a chain of) certificates used for signing and optionally issuing certificates leading up to trusted root. MUST be formatted according to x5c specification in RFC7515.
-            example: certificate_urlencoded_string 
+            example: certificate_urlencoded_string
+      required:
+        - alg
+        - typ
+        - x5c
     client_assertion_jwtpayload:
       type: object
       properties:
@@ -731,7 +745,13 @@ components:
             type: integer
             description: Issued at time for JWT. MUST be formatted in unix epoch time and should be the exact moment of JWT creation by the client.
             example: 1675123456 
-
+      required:
+        - iss
+        - sub
+        - aud
+        - jti
+        - exp
+        - iat
     certificateResponse:
       type: object
       description: response for certificate GET request. 
@@ -740,7 +760,8 @@ components:
           type: string
           description: Contains the server X.509 certificate in base64 encoded PEM format. Includes the '-----BEGIN CERTIFICATE-----' and '-----END CERTIFICATE-----' delimiters.
           example: -----BEGIN CERTIFICATE-----\nMIIDjDCCAnSgAwIBAgIUIJszbDZBoeDQE2XxTkz9S6UK6kAwDQYJKoZIhvcNAQELBQAwOjEUMBIGA1UECgwLZUlEQVMgUVRTUDEWMBQGA1UEAwwNZUlEQVMgUVRTUCBjYSBvYjAeFw0yNDA1MzAxMjAwMDBaFw0yNTA1MzAxMjAwMDBaMGIxGDAWBgNVBAoMD1BlbnNpb25zZXJ2aWNlczEfMB0GA1UECwwWUGVuc2lvbnNlcnZpY2VzIHBhcnRpY2lwYW50MRwwGgYDVQQDDBNQZW5zaW9uc2VydmljZXMgcGFydGljaXBhbnQgdW1teTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANdZtmQ0t9ibM0PPLR8IzFhFthcWcGvEYof0pVi4A4RsxfKMQd1UpW2TxPyAPIN35yxXE5hf2u1XthV2bb5CaQ2dsyu9AqU8/WiJk/jm+prKm0UhzZXYtDwMw1KzBrd1+k09v9hg5MmLphvv4ts2XtL5Oa1yYbZR6cUBjkSuOER2YsO5/62lgXtdSGHFT1UqIj7rWkqD9G3PExR8/UV7jYWtBoFoeqVJ4Pq6w0hM99ps8e1wbp2TpG7U1uHrVp2ZZzD8ZDL1G9TZGlf2ydXBDIf4dQJytj8VFtQHkY9zftPZk6k49xR+9eSbNSCxknSO+1o8V1zBNFFNML6TSNo+yz8CAwEAAaNTMFEwHQYDVR0OBBYEFJDmBXTceO3lVneQSuG7nh2yYH6GMB8GA1UdIwQYMBaAFJDmBXTceO3lVneQSuG7nh2yYH6GMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAHyzPrULImoP03Hb5v3LRyWZWxn8XxsF1hbUqk5s/DOvtF8k4vBv7Q9L6F+1kMCsUgpOkaMbK/JeDAZnMwFBElNg07gZ9S/N7DzBo4BbQsTjVUK9Zx5tDsm1gkXWOpFHRG/9Zb7+lO5ptDNWw73sqRuj3W2/Ym04oZ+e2GpT8GTUgxxXxz+z0MO4gCQsC00fzG2u/jtwx4bm0DP3qE9+zB2E3xXWh8zP8FTb9zgOQxxG8kNRh8TXA0vVV8X6zxlboHgWuxbIFGFdvK15rrDJXn6n0GZJW+REXjRpYBBRV1bVozGsOEHZjiBAvdXYjF/nqKuMjK3SKudn1F8bsUYZMWE=\n-----END CERTIFICATE-----
-
+      required:
+        - certificate
     consentRegistration:
       type: object
       properties:
@@ -751,7 +772,12 @@ components:
         consentScope:
             $ref: '#/components/schemas/consentScope'
         consentContext:
-            $ref: '#/components/schemas/consentContext' 
+            $ref: '#/components/schemas/consentContext'
+      required:
+        - consentStatus
+        - consentAssertion
+        - consentScope
+        - consentContext
     consentStatus:
       type: object
       description: describes consent status
@@ -772,6 +798,11 @@ components:
             type: integer
             description: Optional property. In case of recurring consent type indicates the validity time of the consent in days
             example: 90
+      required:
+        - clientConsentId
+        - approved
+        - consentType
+        - maximumValidity
     consentAssertion:
       type: object
       description: describes involved entities to the consent and issuing timestamp
@@ -795,7 +826,13 @@ components:
         issuedAt:
             type: integer
             description: Issued at time for consent. MUST be formatted in unix epoch time and should be the exact moment of consent by the client.
-            example: 1675123456   
+            example: 1675123456
+      required:
+        - issuer
+        - subject
+        - audience
+        - expiresAt
+        - issuedAt
     consentScope:
       type: object
       description: describes for what service the consent was provided
@@ -804,6 +841,8 @@ components:
             type: string
             description: Details the service for which consent is provided.
             example: divorce_inform
+      required:
+        - pensionService
     consentContext:
       type: object
       description: describes details of what the user was seeing during consent provisioning and what policies are in force
@@ -831,7 +870,13 @@ components:
         mechanismText:
             type: string
             description: Optional, describes the specific action text for consent, such as 'I agree', 'I accept' or 'agree and continue'.
-            example: accept 
+            example: accept
+      required:
+        - privacyPolicyVersion
+        - termsVersion
+        - url
+        - explanatoryText
+        - provisionMechanism
 
     serverConsentId:
       type: string
@@ -847,6 +892,9 @@ components:
         fondsId:
            description: provides the unique identifier of the pensionfund as expected data source. Commonly referred to as the U-code.
            example: U0202
+      required:
+      - burgerServiceNummerEncrypted
+      - fondsId
 
     userInfo:
       type: object
@@ -1050,6 +1098,13 @@ components:
            description: Indicates whether ex-partner is accepting their allocated 'Bijzonder Partner Pensioen' (BPP) if applicable. True indicates that partner accepts the allocated BPP, which then needs to be considered in conversion calculations. False indicates partner is declining their right to BPP.
            type: boolean
            example: true
+      required:
+        - burgerServiceNummerEncrypted
+        - fondsId
+        - berekeningPeriodeStart
+        - berekeningPeriodeEinde
+        - verdelingsPercentage
+        - verdelingsMethode 
 
     scheidingBerekeningResultaat:
         type: object
@@ -1067,6 +1122,9 @@ components:
             $ref: '#/components/schemas/aanspraakTijdelijkPensioenPartner'
           aansprakBijzonderPartnerPensioen:
             $ref: '#/components/schemas/aanspraakBijzonderPartnerPensioen'
+        required:
+          - pensioenRegeling
+
     pensioenRegeling:
       type: object
       properties:
@@ -1094,6 +1152,13 @@ components:
           type: string
           description: describes the current status of the user with the pensionfund. Can be 'actief', 'slapend', 'gepensioneerd'
           example: actief
+      required:
+        - polisnummerRegeling
+        - typeRegeling
+        - looptijdRegeling
+        - regelingStartdatum
+        - deelnemerStatus
+
     aanspraakOuderdomspensioen:
       type: object
       description: optional object, MUST be used if the duration of the pension agreement type is set to "levenslang" (life long, old age agreement)
@@ -1110,6 +1175,10 @@ components:
           type: string
           description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'Success' (division limit is met) or 'Failed' (division limit is not met).
           example: Success
+      required:
+        - maandbedragVoor
+        - maandbedragNa
+        - afkoopgrensTest
     aanspraakOuderdomspensioenPartner:
       type: object
       description: optional object, MUST be used if the duration of the pension agreement type is set to "levenslang" (life long, old age agreement)
@@ -1126,6 +1195,10 @@ components:
           type: string
           description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'Success' (division limit is met) or 'Failed' (division limit is not met).
           example: Success
+      required:
+        - maandbedragVoor
+        - maandbedragNa
+        - afkoopgrensTest
     aanspraakTijdelijkPensioen:
       type: object
       description: optional object, MUST be used if the duration of the pension agreement type is set to "tijdelijk" (temporary, flexible pension agreement)
@@ -1142,6 +1215,10 @@ components:
           type: string
           description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'Success' (division limit is met) or 'Failed' (division limit is not met).
           example: Success
+      required:
+        - maandbedragVoor
+        - maandbedragNa
+        - afkoopgrensTest
     aanspraakTijdelijkPensioenPartner:
       type: object
       description: optional object, MUST be used if the duration of the pension agreement type is set to "tijdelijk" (temporary, flexible pension agreement)
@@ -1158,6 +1235,10 @@ components:
           type: string
           description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'Success' (division limit is met) or 'Failed' (division limit is not met).
           example: Success
+      required:
+        - maandbedragVoor
+        - maandbedragNa
+        - afkoopgrensTest
     aanspraakBijzonderPartnerPensioen:
       type: object
       properties:
@@ -1168,7 +1249,10 @@ components:
         maandBedragNa:
           type: number
           description: Accrued BPP after applying divorce division parameters. Remains the same in case of declined BPP acceptance or accepted with verevening method. Is reset to 0 when BPP is accepted by the ex-partner and conversion is applied.
-          example: 800     
+          example: 800
+      required:
+        - maandBedragVoor
+        - maandBedragNa
  
   securitySchemes:
     auth:
