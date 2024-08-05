@@ -16,36 +16,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              type: object
-              example: 
-                $ref: '#/components/schemas/TokenRequestBody'
-              properties:
-                grant_type:
-                  type: string
-                  description: OAuth 2.0 grant type MUST be set to client_credentials
-                  example: client_credentials
-                scope:
-                  type: string
-                  description: The value passed for the scope parameter in this request should be "afsprakenstelsel_pensioenservices" 
-                  example: afsprakenstelsel_pensioenservices               
-                client_id:
-                  type: string
-                  description: The clientID that's assigned to the organisation requesting access. When accepting a new organisation in the ecosystem, the expected client_id is defined. This should be an organisational identifier that is also present on the authentication certificate used by the client to sign the client_assertion. For NL organisations the most common clientID is the RSIN number on an eIDAS (QWAC) certificate, usually the organisation's tax number. 
-                  example: 123456789
-                client_assertion_type:
-                  type: string
-                  description: The value MUST be set to urn:ietf:params:oauth:client-assertion-type:jwt-bearer
-                  example: urn:ietf:params:oauth:client-assertion-type:jwt-bearer
-                client_assertion:
-                  type: string
-                  description: An assertion (a JSON web token) that the client will need to create by signing with the certificate they registered as credentials with the Scheme Authority.
-                  schema:          
-                    $ref: '#/components/schemas/client_assertion' 
-                    example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIng1YyI6ImNlcnRpZmljYXRlX2NoYWluIn0.eyJpc3MiOiJjbGllbnRfaWQiLCJzdWIiOiJjbGllbnRfaWQiLCJhdWQiOiJzZXJ2ZXJfZG9tYWluL29hdXRoMi4wL3Rva2VuIiwianRpIjoicGVuc2lvbnNjaGVtZS5jbGllbnRpZC4xMjM0NTY3ODkiLCJleHAiOjE1MTYyNDI2MjIsImlhdCI6MTUxNjIzOTAyMn0.qNzTzxeNhmVH9NLsYKx2gtjKk83wLRgWqm_i8i0lUXUDTtxb-uzZnPN65u7z2idMl-zPUrC3OlAyjuCZnZkht0mlwYQpb_yVXQd-DNwkutBtRnqAZ-heUmAQ6cSH4-ghrsrO86m2E7DfLjjgnA0WWkZLwpKvd4Zoa1kWi0IGee-Wxb1rSy7lXxfLw4bPB5m4wl-b5atRqbb3wuRVr5M8RlCuhJSBlNsXeXjvp9Z-zfr5fHX8uc44VU4Vf_MaqiQbFW8ApZGEJbkNIwNSlGE1NFeZitQW0i6KcYWLWtpT-MgnlUVxs1ywEj2BG6s-_Fkk4NrfSCX2amC1IlGnZXUfJw
-                status_token:
-                  type: string
-                  description: A token (signed by the Scheme Authority) that proves that the client is an approved and active participant of the pensionservices ecosystem.
-                  example: status_token
+              $ref: '#/components/schemas/TokenRequestBody'
       responses:
         '200':
            description: OK - Access token Successfully obtained
