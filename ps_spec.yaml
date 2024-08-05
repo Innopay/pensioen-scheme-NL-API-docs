@@ -194,12 +194,14 @@ paths:
           example: Bearer 6c18c234b1b18b1d97c7043e2e41135c293d0da9
           required: true
           description: Bearer JWT Access Token - acquired through the token endpoint
-        - in: body
-          name: consentRegistration
-          required: true
-          description: describes consent registration data
-          schema:
-             $ref: '#/components/schemas/consentRegistration'
+      requestBody:
+        required: true
+        description: describes consent registration data
+        content:
+          application/json:
+            schema:          
+              $ref: '#/components/schemas/consentRegistration'
+
       responses:
         '201':
            description: Consent Successfully created
@@ -290,12 +292,13 @@ paths:
           example: Bearer 6c18c234b1b18b1d97c7043e2e41135c293d0da9
           required: true
           description: Bearer JWT Access Token - acquired through the token endpoint
-        - in: body
-          name: consentRegistration
-          required: true
-          description: describes consent registration data
-          schema:          
-             $ref: '#/components/schemas/consentRegistrationPATCH'  
+      requestBody:
+        required: true
+        description: describes consent registration data
+        content:
+          application/json:
+            schema:          
+              $ref: '#/components/schemas/consentRegistrationPATCH'
       responses:
         '200':
            description: OK - Consent Successfully updated
@@ -459,27 +462,25 @@ paths:
             example: Bearer 6c18c234b1b18b1d97c7043e2e41135c293d0da9
           required: true
           description: Bearer JWT Access Token - acquired through the token endpoint
-        - in: body
-          name: scope
-          required: true
-          schema:          
-             type: string
-             example: divorce-inform
-          description: Describes the data scope that is requested within all personal data of a participant. MUST be one of the pre-defined scopes within the pensionservices scheme. For divorce these are "divorce-inform" and "divorce-confirm".
-        - in: body
-          name: serverConsentId
-          required: true
-          schema:          
-             type: string
-             $ref: '#/components/schemas/serverConsentId'
-          description: Reference to the relevant consent resource that is registered server-side
-        - in: body
-          name: userInfoParameters
-          required: true
-          schema:          
-             type: object
-             $ref: '#/components/schemas/userInfoParameters'
-          description: Contains the input parameters the datasource needs to return specific personal data attributes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                scope:
+                  type: string
+                  example: divorce-inform
+                  description: Describes the data scope that is requested within all personal data of a participant. MUST be one of the pre-defined scopes within the pensionservices scheme. For divorce, these are "divorce-inform" and "divorce-confirm".
+                serverConsentId:
+                  $ref: '#/components/schemas/serverConsentId'
+                userInfoParameters:
+                  $ref: '#/components/schemas/userInfoParameters'
+              required:
+                - scope
+                - serverConsentId
+                - userInfoParameters
       responses:
         '200':
           description: OK - Successful request
@@ -560,26 +561,25 @@ paths:
             example: Bearer 6c18c234b1b18b1d97c7043e2e41135c293d0da9
           required: true
           description: Bearer JWT Access Token - acquired through the token endpoint
-        - in: body
-          name: scope
-          required: true
-          schema:
-             type: string
-             example: scheidingBerekening
-          description: Describes the data scope that is requested within all entitlement data of a participant. MUST be one of the pre-defined scopes within the pensionservices scheme.
-        - in: body
-          name: serverConsentId
-          required: true
-          schema:
-             type: string
-             $ref: '#/components/schemas/serverConsentId'
-          description: Reference to the relevant consent resource that is registered server-side
-        - in: body
-          name: scheidingBerekeningParameters
-          required: true
-          schema:
-             $ref: '#/components/schemas/scheidingBerekeningParameters'
-          description: Contains the input parameters the datasource needs to include for making calculations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                scope:
+                  type: string
+                  example: scheidingBerekening
+                  description: Describes the data scope that is requested within all entitlement data of a participant. MUST be one of the pre-defined scopes within the pensionservices scheme.
+                serverConsentId:
+                  $ref: '#/components/schemas/serverConsentId'
+                scheidingBerekeningParameters:
+                  $ref: '#/components/schemas/scheidingBerekeningParameters'
+              required:
+                - scope
+                - serverConsentId
+                - scheidingBerekeningParameters
       responses:
         '200':
           description: OK - Successful request
@@ -1237,6 +1237,7 @@ components:
       type: oauth2
       flows:
         clientCredentials:
+          tokenUrl: https://example.com/pensionservices-scheme/v1.0/token
           scopes:
             write:access: Make changes
             read:access: Retrieve data
