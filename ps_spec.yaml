@@ -1081,7 +1081,6 @@ components:
         - burgerServiceNummerEncrypted
         - fondsId
         - berekeningPeriodeStart
-        - berekeningPeriodeEinde
         - verdelingsPercentage
         - verdelingsMethode 
 
