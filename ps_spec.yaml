@@ -178,7 +178,7 @@ paths:
           required: true
           description: timestamp - current time in Unix epoch format 
         - in: header
-          name: Signature
+          name: X-Signature
           schema:
             type: string    
           example: RXhhbXBsZVJlc3BvbnNlU2lnbmF0dXJl
@@ -271,7 +271,7 @@ paths:
           required: true
           description: timestamp - current time in Unix epoch format
         - in: header
-          name: Signature
+          name: X-Signature
           schema:
             type: string    
           example: RXhhbXBsZVJlc3BvbnNlU2lnbmF0dXJl
@@ -431,7 +431,7 @@ paths:
           required: true
           description: timestamp - current time in Unix epoch format
         - in: header
-          name: Signature
+          name: X-Signature
           schema:
             type: string    
           example: RXhhbXBsZVJlc3BvbnNlU2lnbmF0dXJl
@@ -525,7 +525,7 @@ paths:
           required: true
           description: timestamp - current time signature creation in Unix epoch format
         - in: header
-          name: Signature
+          name: X-Signature
           schema:
             type: string    
           example: RXhhbXBsZVJlc3BvbnNlU2lnbmF0dXJl
