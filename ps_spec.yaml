@@ -4,12 +4,13 @@ info:
   description: This API reference documentation serves as an example as to how "datasources" can publish the required pensionservices APIs. Datasources MUST follow API url paths as defined in the calls below and add a domain-specific prefix.
   version: 1.0.0
 servers:
-  - url: https://api.your-domain.com/
+  - url: https://api.example.com
 paths:
   /pensionservices-scheme/v1.0/token:
     post:
       summary: Retrieve access token
       description: Access to resource endpoints is granted based on access tokens. Each approved and active Scheme participant must be able to request access tokens by using the token endpoint offered by each datasource. To obtain an Access Token the OAuth client credentials type grant flow is used as explained in RFC6749 & RFC7523, parameter naming conventions will follow OAuth standards. As clients may not be pre-registered, the client secret is replaced with a client assertion using the client's certificate. Additionally, the client presents a status token (issued & signed by Scheme Authority) to prove the accepted & active participant status for the client.  
+      security: []
       requestBody:
         description: Token request body
         required: true
@@ -111,14 +112,8 @@ paths:
     get:
       summary: Retrieve server certificate
       description: Provides the signing certificate (X.509 certificate in base64 encoded PEM format) that is used by the server in the context of the pensionservices data sharing scheme. Can be used for validating the server identity, response signatures or the server's public key can be used to encrypt sensitive data towards the server.
-      parameters:
-        - in: header
-          name: Authorization
-          schema:
-            type: string
-          example: Bearer 6c18c234b1b18b1d97c7043e2e41135c293d0da9
-          required: true
-          description: Bearer JWT Access Token - acquired through the token endpoint
+      security: 
+        - auth: []
       responses:
         '200':
           description: OK - Successful request
@@ -164,6 +159,8 @@ paths:
     post:
       summary: Create consent
       description: Provides new collected user consent to server. Server responds with a resource reference ID to be used for further reference to the consent. Resource reference ID must be URL encoded value. Request and response (2xx) MUST be signed using X-Timestamp and X-Signature headers.
+      security: 
+        - auth: []
       parameters:
         - in: header
           name: Content-type
@@ -187,13 +184,6 @@ paths:
           example: RXhhbXBsZVJlc3BvbnNlU2lnbmF0dXJl
           required: true
           description: Base64 encoded request signature. Created by signing the signature base string (combining HTTP method, URL, body and X-Timestamp header values) using RS256 algorithm, with private key of the client.
-        - in: header
-          name: Authorization
-          schema:
-            type: string
-          example: Bearer 6c18c234b1b18b1d97c7043e2e41135c293d0da9
-          required: true
-          description: Bearer JWT Access Token - acquired through the token endpoint
       requestBody:
         required: true
         description: describes consent registration data
@@ -256,6 +246,8 @@ paths:
     patch:
       summary: Update consent
       description: Send updated data to previously created consent at the server. Only requires the client to send values for attributes in the consentRegistration that are changed. Primarily used for renewing the validity period. Request and response (2xx) MUST be signed using X-Timestamp and X-Signature headers.
+      security: 
+        - auth: []
       parameters:
         - in: path
           name: serverConsentId
@@ -285,13 +277,6 @@ paths:
           example: RXhhbXBsZVJlc3BvbnNlU2lnbmF0dXJl
           required: true
           description: Base64 encoded request signature. Created by signing the signature base string (combining HTTP method, URL, body and X-Timestamp header values) using RS256 algorithm, with private key of the client.
-        - in: header
-          name: Authorization
-          schema:
-            type: string
-          example: Bearer 6c18c234b1b18b1d97c7043e2e41135c293d0da9
-          required: true
-          description: Bearer JWT Access Token - acquired through the token endpoint
       requestBody:
         required: true
         description: describes consent registration data
@@ -352,6 +337,8 @@ paths:
     delete:
       summary: Delete consent
       description: Delete the specified consent resource from the server. Requires the client to send the serverConsentId to identify the consent resource to be deleted. The request MUST be signed using X-Timestamp and X-Signature headers.
+      security: 
+        - auth: []
       parameters:
         - in: path
           name: serverConsentId
@@ -374,13 +361,6 @@ paths:
           example: RXhhbXBsZVJlc3BvbnNlU2lnbmF0dXJl
           required: true
           description: Base64 encoded request signature. Created by signing the signature base string (combining HTTP method, URL, and X-Timestamp header values) using RS256 algorithm, with private key of the client.
-        - in: header
-          name: Authorization
-          schema:
-            type: string
-          example: Bearer 6c18c234b1b18b1d97c7043e2e41135c293d0da9
-          required: true
-          description: Bearer JWT Access Token - acquired through the token endpoint
       responses:
         '204':
            description: No Content - Consent successfully deleted
@@ -432,6 +412,8 @@ paths:
     post:
       summary: Retrieve participant personal data
       description: Requests a set of personal data about a specific participant. To prevent logging of Dutch personal identifiers through URL paths, a POST is used with the Dutch personal identifier as part of request body. Each pensionservice has an ID token scope associated with the service to ensure only the relevant specific set of personal data is shared. Only a subset of the example response will be returned based on requested scope. Request and response (2xx) MUST be signed using X-Timestamp and X-Signature headers.
+      security: 
+          - auth: []
       parameters:
         - in: header
           name: Content-type
@@ -455,13 +437,6 @@ paths:
           example: RXhhbXBsZVJlc3BvbnNlU2lnbmF0dXJl
           required: true
           description: Base64 encoded request signature. Created by signing the signature base string (combining HTTP method, URL, body and X-Timestamp header values) using RS256 algorithm, with private key of the client.
-        - in: header
-          name: Authorization
-          schema:
-            type: string
-            example: Bearer 6c18c234b1b18b1d97c7043e2e41135c293d0da9
-          required: true
-          description: Bearer JWT Access Token - acquired through the token endpoint
       requestBody:
         required: true
         content:
@@ -531,6 +506,8 @@ paths:
     post:
       summary: Retrieve divorce calculations
       description: Retrieves specific pension entitlement calculations specifically for divorce pensionservices). Request and response (2xx) MUST be signed using X-Timestamp and X-Signature headers.
+      security: 
+        - auth: []
       parameters:
         - in: header
           name: Content-type
@@ -554,13 +531,6 @@ paths:
           example: RXhhbXBsZVJlc3BvbnNlU2lnbmF0dXJl
           required: true
           description: Base64 encoded request signature. Created by signing the signature base string (combining HTTP method, URL, body and X-Timestamp header values) using RS256 algorithm, with private key of the client.
-        - in: header
-          name: Authorization
-          schema:
-            type: string
-            example: Bearer 6c18c234b1b18b1d97c7043e2e41135c293d0da9
-          required: true
-          description: Bearer JWT Access Token - acquired through the token endpoint
       requestBody:
         required: true
         content:
@@ -1235,9 +1205,11 @@ components:
   securitySchemes:
     auth:
       type: oauth2
+      description: |
+        This API uses OAuth 2.0 Client Credentials flow for authentication.
+        Clients must obtain a Bearer token from the token endpoint using a client assertion (see /token for details).
       flows:
         clientCredentials:
-          tokenUrl: https://example.com/pensionservices-scheme/v1.0/token
+          tokenUrl: https://api.example.com/pensionservices-scheme/v1.0/token
           scopes:
-            write:access: Make changes
-            read:access: Retrieve data
+            afsprakenstelsel_pensioenservices: Access pension services
