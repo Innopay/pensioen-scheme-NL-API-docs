@@ -1184,14 +1184,14 @@ components:
           type: number
           description: Expected monthly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
           example: 1000
-        afkoopgrensTest:
+        maandbedragVoorHogerDanAfkoopgrens:
           type: string
           description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'Success' (division limit is met) or 'Failed' (division limit is not met).
           example: Success
       required:
         - maandbedragVoor
         - maandbedragNa
-        - afkoopgrensTest
+        - maandbedragVoorHogerDanAfkoopgrens
     aanspraakOuderdomspensioenPartner:
       type: object
       description: optional object, MUST be used if the duration of the pension agreement type is set to "levenslang" (life long, old age agreement)
