@@ -1185,9 +1185,9 @@ components:
           description: Expected monthly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
           example: 1000
         maandbedragVoorHogerDanAfkoopgrens:
-          type: string
-          description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'Success' (division limit is met) or 'Failed' (division limit is not met).
-          example: Success
+          type: boolean
+          description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either True (division limit is met) or False (division limit is not met).
+          example: True
       required:
         - maandbedragVoor
         - maandbedragNa
@@ -1224,10 +1224,10 @@ components:
           type: number
           description: Expected monthly flexible pension entitlement (EUR) after division of pension due to divorce based on request parameters, during the timeframe indicated in the pension agreement startdate and enddate.
           example: 1000
-        afkoopgrensTest:
-          type: string
-          description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'Success' (division limit is met) or 'Failed' (division limit is not met).
-          example: Success
+        maandbedragVoorHogerDanAfkoopgrens:
+          type: boolean
+          description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either True (division limit is met) or False (division limit is not met).
+          example: True
       required:
         - maandbedragVoor
         - maandbedragNa
