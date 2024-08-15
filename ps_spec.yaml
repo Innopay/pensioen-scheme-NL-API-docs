@@ -479,7 +479,9 @@ paths:
                       voorkeursnaam: "A.B. de Boer"
                       verwantschapType: "gehuwd"
                       relatieStart: "2015-03-10"
-                      relatieEind: "2023-08-22"
+                      relatieEind:
+                        - einddatum: "2023-08-22"
+                          einddatumType: "einde huwelijk of geregistreerd partnerschap"
                 divorce-confirm:
                   summary: Example for scope = divorce-confirm
                   value:
@@ -496,7 +498,9 @@ paths:
                       geboortedatum: "1985-02-21"
                       verwantschapType: "gehuwd"
                       relatieStart: "2015-03-10"
-                      relatieEind: "2023-08-22"
+                      relatieEind:
+                        - einddatum: "2023-08-22"
+                          einddatumType: "einde huwelijk of geregistreerd partnerschap"
                     userInfoAddress:
                       woonadres: "Hoofdweg 21a"
                       woonplaats: "Amsterdam"
@@ -992,9 +996,20 @@ components:
           description: official starting date of the formal relation between user and partner, e.g. wedding date
           example: 2015-03-10
         relatieEind:
-          type: string
-          description: official enddate of the relation if applicable, e.g. divorce date or legal separation (scheiding tafel en bed).
-          example: 2023-08-22
+          type: array
+          description: List of relevant end dates of the relation, each associated with a specific type, e.g., divorce date, legal separation (scheiding tafel en bed), or other significant dates.
+          items:
+            type: object
+            properties:
+              einddatumType:
+                type: string
+                description: The type of end date, e.g., 'einde huwelijk of geregistreerd partnerschap', 'scheiding van tafel en bed'
+                example: einde huwelijk of geregistreerd partnerschap
+              einddatum:
+                type: string
+                format: date
+                description: The date associated with the specified end date type.
+                example: 2023-08-22
     userInfoAddress:
       type: object
       properties:
