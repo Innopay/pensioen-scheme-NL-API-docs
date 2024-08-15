@@ -1240,7 +1240,7 @@ components:
       required:
         - maandbedragVoor
         - maandbedragNa
-        - afkoopgrensTest
+        - maandbedragVoorHogerDanAfkoopgrens
     aanspraakTijdelijkPensioenPartner:
       type: object
       description: optional object, MUST be used if the duration of the pension agreement type is set to "tijdelijk" (temporary, flexible pension agreement)
@@ -1282,7 +1282,7 @@ components:
 
   examples:
     pensioenOuderdomExample:
-      summary: Example with pensioenRegeling + aanspraakOuderdomspensioen + aanspraakOuderdomspensioenPartner
+      summary: Only Ouderdomspensioen example
       value:
         - pensioenRegeling:
             polisnummerRegeling: "1234567890"
@@ -1301,7 +1301,7 @@ components:
             afkoopgrensTest: "Success"
 
     pensioenTijdelijkExample:
-      summary: Example with pensioenRegeling + aanspraakTijdelijkPensioen + aanspraakTijdelijkPensioenPartner
+      summary: Only Tijdelijk Pensioen example
       value:
         - pensioenRegeling:
             polisnummerRegeling: "2345678901"
@@ -1320,7 +1320,7 @@ components:
             afkoopgrensTest: "Success"
 
     combinedExample:
-      summary: Combined example with pensioenRegeling + multiple aanspraken
+      summary: Combined example (Ouderdoms+Tijdelijk)
       value:
         - pensioenRegeling:
             polisnummerRegeling: "3456789012"
