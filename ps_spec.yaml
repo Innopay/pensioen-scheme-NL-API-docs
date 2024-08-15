@@ -636,6 +636,8 @@ paths:
                   $ref: '#/components/examples/pensioenTijdelijkExample'
                 combined:
                   $ref: '#/components/examples/combinedExample'
+                afkoopgrens:
+                  $ref: '#/components/examples/afkoopgrensExample'
         '400':
           description: Bad request 
           content:
@@ -1311,7 +1313,7 @@ components:
             regelingEinddatum: "2015-01-01"
             deelnemerStatus: "slapend"
           aanspraakTijdelijkPensioen:
-            maandbedragVoor: 0
+            maandbedragVoor: 2000
             maandbedragNa: 1000
             maandbedragVoorHogerDanAfkoopgrens: True
           aanspraakTijdelijkPensioenPartner:
@@ -1324,11 +1326,10 @@ components:
       value:
         - pensioenRegeling:
             polisnummerRegeling: "3456789012"
-            typeRegeling: "kapitaalregeling"
+            typeRegeling: "uitkeringsregeling"
             looptijdRegeling: "levenslang"
             regelingStartdatum: "2010-01-01"
-            regelingEinddatum: null
-            deelnemerStatus: "gepensioneerd"
+            deelnemerStatus: "actief"
           aanspraakOuderdomspensioen:
             maandbedragVoor: 3000
             maandbedragNa: 1500
@@ -1337,14 +1338,45 @@ components:
             maandbedragVoor: 0
             maandbedragNa: 1500
             afkoopgrensTest: "Success"
+        - pensioenRegeling:
+            polisnummerRegeling: "4567890123"
+            typeRegeling: "uitkeringsregeling"
+            looptijdRegeling: "tijdelijk"
+            regelingStartdatum: "2010-01-01"
+            regelingEinddatum: "2030-01-01"
+            deelnemerStatus: "actief"
           aanspraakTijdelijkPensioen:
-            maandbedragVoor: 0
-            maandbedragNa: 500
-            maandbedragVoorHogerDanAfkoopgrens: False
+            maandbedragVoor: 4000
+            maandbedragNa: 400
+            maandbedragVoorHogerDanAfkoopgrens: True
           aanspraakTijdelijkPensioenPartner:
             maandbedragVoor: 0
-            maandbedragNa: 500
+            maandbedragNa: 3600
+            afkoopgrensTest: "Success"
+    afkoopgrensExample:
+      summary: Ouderdomspensioen afkoopgrens example
+      value:
+        - pensioenRegeling:
+            polisnummerRegeling: "1234567890"
+            typeRegeling: "uitkeringsregeling"
+            looptijdRegeling: "levenslang"
+            regelingStartdatum: "2001-01-01"
+            regelingEinddatum: "2008-01-01"
+            deelnemerStatus: "actief"
+          aanspraakOuderdomspensioen:
+            maandbedragVoor: 2000
+            maandbedragNa: 2000
+            maandbedragVoorHogerDanAfkoopgrens: True
+          aanspraakOuderdomspensioenPartner:
+            maandbedragVoor: 0
+            maandbedragNa: 0
             afkoopgrensTest: "Failed"
+
+
+
+
+
+
   securitySchemes:
     auth:
       type: oauth2
