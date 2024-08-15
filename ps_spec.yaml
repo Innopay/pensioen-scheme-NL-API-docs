@@ -996,20 +996,14 @@ components:
           description: official starting date of the formal relation between user and partner, e.g. wedding date
           example: 2015-03-10
         relatieEind:
-          type: array
-          description: List of relevant end dates of the relation, each associated with a specific type, e.g., divorce date, legal separation (scheiding tafel en bed), or other significant dates.
-          items:
-            type: object
-            properties:
-              einddatumType:
-                type: string
-                description: The type of end date, e.g., 'einde huwelijk of geregistreerd partnerschap', 'scheiding van tafel en bed'
-                example: einde huwelijk of geregistreerd partnerschap
-              einddatum:
-                type: string
-                format: date
-                description: The date associated with the specified end date type.
-                example: 2023-08-22
+          type: string
+          description: officiel ending date of the formal relation between user and partner, e.g
+          example: 2023-08-22
+        datumScheidingTafelenBed:
+          type: string
+          description: date of scheiding van tafel en bed
+          example: 2022-01-01
+        
     userInfoAddress:
       type: object
       properties:
