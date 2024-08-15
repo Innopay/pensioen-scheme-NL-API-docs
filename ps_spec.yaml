@@ -626,7 +626,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/scheidingBerekeningResultaat' 
+                type: array
+                items:
+                  $ref: '#/components/schemas/scheidingBerekeningResultaat'
+              examples:
+                pensioenOuderdom:
+                  $ref: '#/components/examples/pensioenOuderdomExample'
+                pensioenTijdelijk:
+                  $ref: '#/components/examples/pensioenTijdelijkExample'
+                combined:
+                  $ref: '#/components/examples/combinedExample'
         '400':
           description: Bad request 
           content:
@@ -1266,7 +1275,76 @@ components:
       required:
         - maandBedragVoor
         - maandBedragNa
- 
+  
+
+
+
+
+  examples:
+    pensioenOuderdomExample:
+      summary: Example with pensioenRegeling + aanspraakOuderdomspensioen + aanspraakOuderdomspensioenPartner
+      value:
+        - pensioenRegeling:
+            polisnummerRegeling: "1234567890"
+            typeRegeling: "uitkeringsregeling"
+            looptijdRegeling: "levenslang"
+            regelingStartdatum: "2001-01-01"
+            regelingEinddatum: "2008-01-01"
+            deelnemerStatus: "actief"
+          aanspraakOuderdomspensioen:
+            maandbedragVoor: 2000
+            maandbedragNa: 1000
+            maandbedragVoorHogerDanAfkoopgrens: True
+          aanspraakOuderdomspensioenPartner:
+            maandbedragVoor: 0
+            maandbedragNa: 1000
+            afkoopgrensTest: "Success"
+
+    pensioenTijdelijkExample:
+      summary: Example with pensioenRegeling + aanspraakTijdelijkPensioen + aanspraakTijdelijkPensioenPartner
+      value:
+        - pensioenRegeling:
+            polisnummerRegeling: "2345678901"
+            typeRegeling: "premieregeling"
+            looptijdRegeling: "tijdelijk"
+            regelingStartdatum: "2005-01-01"
+            regelingEinddatum: "2015-01-01"
+            deelnemerStatus: "slapend"
+          aanspraakTijdelijkPensioen:
+            maandbedragVoor: 0
+            maandbedragNa: 1000
+            maandbedragVoorHogerDanAfkoopgrens: True
+          aanspraakTijdelijkPensioenPartner:
+            maandbedragVoor: 0
+            maandbedragNa: 1000
+            afkoopgrensTest: "Success"
+
+    combinedExample:
+      summary: Combined example with pensioenRegeling + multiple aanspraken
+      value:
+        - pensioenRegeling:
+            polisnummerRegeling: "3456789012"
+            typeRegeling: "kapitaalregeling"
+            looptijdRegeling: "levenslang"
+            regelingStartdatum: "2010-01-01"
+            regelingEinddatum: null
+            deelnemerStatus: "gepensioneerd"
+          aanspraakOuderdomspensioen:
+            maandbedragVoor: 3000
+            maandbedragNa: 1500
+            maandbedragVoorHogerDanAfkoopgrens: True
+          aanspraakOuderdomspensioenPartner:
+            maandbedragVoor: 0
+            maandbedragNa: 1500
+            afkoopgrensTest: "Success"
+          aanspraakTijdelijkPensioen:
+            maandbedragVoor: 0
+            maandbedragNa: 500
+            maandbedragVoorHogerDanAfkoopgrens: False
+          aanspraakTijdelijkPensioenPartner:
+            maandbedragVoor: 0
+            maandbedragNa: 500
+            afkoopgrensTest: "Failed"
   securitySchemes:
     auth:
       type: oauth2
