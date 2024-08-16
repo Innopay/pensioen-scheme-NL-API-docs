@@ -479,9 +479,7 @@ paths:
                       voorkeursnaam: "A.B. de Boer"
                       verwantschapType: "gehuwd"
                       relatieStart: "2015-03-10"
-                      relatieEind:
-                        - einddatum: "2023-08-22"
-                          einddatumType: "einde huwelijk of geregistreerd partnerschap"
+                      relatieEind: "2023-08-22"
                 divorce-confirm:
                   summary: Example for scope = divorce-confirm
                   value:
@@ -498,9 +496,7 @@ paths:
                       geboortedatum: "1985-02-21"
                       verwantschapType: "gehuwd"
                       relatieStart: "2015-03-10"
-                      relatieEind:
-                        - einddatum: "2023-08-22"
-                          einddatumType: "einde huwelijk of geregistreerd partnerschap"
+                      relatieEind: "2023-08-22"
                     userInfoAddress:
                       woonadres: "Hoofdweg 21a"
                       woonplaats: "Amsterdam"
