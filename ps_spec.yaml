@@ -484,7 +484,7 @@ paths:
                   summary: Example for scope = divorce-confirm
                   value:
                     userInfoIdentifier:
-                      klantnummer: 1234512344
+                      klantnummer: '1234512344'
                       burgerServiceNummerEncrypted: "M@a7R0$I;"
                     userInfoProfile:
                       aanhef: "Dhr."
@@ -505,17 +505,17 @@ paths:
                       land: "Nederland"
                     userInfoContact:
                       emailadres: "jandeboer@emailprovider.com"
-                      telefoonnummer: 31612345678
+                      telefoonnummer: '31612345678'
                       bankrekeningnummer: "NL11RABO011111111"
                     userInfoPensioen:
-                      polisnummerRegeling: 1234567890
+                      polisnummerRegeling: '1234567890'
                       typeRegeling: "uitkeringsregeling"
                       looptijdRegeling: "levenslang"
                       regelingStartdatum: "2001-01-01"
                       regelingEinddatum: "2008-01-01"
                       deelnemerStatus: "actief"
                     userInfoPartnerProfile:
-                      partnerKlantnummer: 1234512345
+                      partnerKlantnummer: '1234512345'
                       aanhef: "Mevr."
                       initialen: "C.D."
                       voornamen: "Marie"
@@ -531,7 +531,7 @@ paths:
                       land: "Nederland"
                     userInfoPartnerContact:
                       emailadres: "jandeboer@emailprovider.com"
-                      telefoonnummer: 31612345678
+                      telefoonnummer: '31612345678'
                       bankrekeningnummer: "NL11RABO011111111"
         '400':
           description: Bad request 
