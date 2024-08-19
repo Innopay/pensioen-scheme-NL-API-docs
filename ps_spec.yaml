@@ -1202,8 +1202,8 @@ components:
           example: 1000
         maandbedragVoorHogerDanAfkoopgrens:
           type: boolean
-          description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either True (division limit is met) or False (division limit is not met).
-          example: True
+          description: Indicates whether entitlement meets legal minimum for division of pension (indepedent of division). Entitlements falling below the division limit cannot be divided. Must be either True (division limit is met) or False (division limit is not met).
+          example: true
       required:
         - maandbedragVoor
         - maandbedragNa
@@ -1220,14 +1220,14 @@ components:
           type: number
           description: Partner's expected monthly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
           example: 1000
-        afkoopgrensTest:
-          type: string
-          description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'Success' (division limit is met) or 'Failed' (division limit is not met).
-          example: Success
+        maandbedragNaHogerDanAfkoopgrens:
+          type: boolean
+          description: Indicates whether resulting entitlement (based on division) meets legal minimum for division of pension. Entitlements divisions where the ex-partner's share is below the division limit cannot be divided.  Must be either true (division limit is met) or false (division limit is not met).
+          example: true
       required:
         - maandbedragVoor
         - maandbedragNa
-        - afkoopgrensTest
+        - maandbedragNaHogerDanAfkoopgrens
     aanspraakTijdelijkPensioen:
       type: object
       description: optional object, MUST be used if the duration of the pension agreement type is set to "tijdelijk" (temporary, flexible pension agreement)
@@ -1242,7 +1242,7 @@ components:
           example: 1000
         maandbedragVoorHogerDanAfkoopgrens:
           type: boolean
-          description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either True (division limit is met) or False (division limit is not met).
+          description: Indicates whether entitlement meets legal minimum for division of pension (indepedent of division). Entitlements falling below the division limit cannot be divided. Must be either True (division limit is met) or False (division limit is not met).
           example: True
       required:
         - maandbedragVoor
@@ -1260,14 +1260,14 @@ components:
           type: number
           description: Partner's expected monthly flexible pension entitlement (EUR) after division of pension due to divorce based on request parameters, during the timeframe indicated in the pension agreement startdate and enddate.
           example: 1000
-        afkoopgrensTest:
-          type: string
-          description: Indicates whether resulting entitlement meets legal minimum for division of pension. Entitlements falling below the division limit cannot be divided. Must be either 'Success' (division limit is met) or 'Failed' (division limit is not met).
-          example: Success
+        maandbedragNaHogerDanAfkoopgrens:
+          type: boolean
+          description: Indicates whether resulting entitlement (based on division) meets legal minimum for division of pension. Entitlements divisions where the ex-partner's share is below the division limit cannot be divided.  Must be either true (division limit is met) or false (division limit is not met).
+          example: true
       required:
         - maandbedragVoor
         - maandbedragNa
-        - afkoopgrensTest
+        - maandbedragNaHogerDanAfkoopgrens
     aanspraakBijzonderPartnerPensioen:
       type: object
       properties:
@@ -1305,7 +1305,7 @@ components:
           aanspraakOuderdomspensioenPartner:
             maandbedragVoor: 0
             maandbedragNa: 1000
-            afkoopgrensTest: "Success"
+            maandbedragNaHogerDanAfkoopgrens: true
 
     pensioenTijdelijkExample:
       summary: Only Tijdelijk Pensioen example
@@ -1324,7 +1324,7 @@ components:
           aanspraakTijdelijkPensioenPartner:
             maandbedragVoor: 0
             maandbedragNa: 1000
-            afkoopgrensTest: "Success"
+            maandbedragNaHogerDanAfkoopgrens: true
 
     combinedExample:
       summary: Combined example (Ouderdoms+Tijdelijk)
@@ -1342,7 +1342,7 @@ components:
           aanspraakOuderdomspensioenPartner:
             maandbedragVoor: 0
             maandbedragNa: 1500
-            afkoopgrensTest: "Success"
+            maandbedragNaHogerDanAfkoopgrens: true
         - pensioenRegeling:
             polisnummerRegeling: "4567890123"
             typeRegeling: "uitkeringsregeling"
@@ -1357,7 +1357,7 @@ components:
           aanspraakTijdelijkPensioenPartner:
             maandbedragVoor: 0
             maandbedragNa: 3600
-            afkoopgrensTest: "Success"
+            maandbedragNaHogerDanAfkoopgrens: true
     afkoopgrensExample:
       summary: Ouderdomspensioen afkoopgrens example
       value:
@@ -1371,11 +1371,11 @@ components:
           aanspraakOuderdomspensioen:
             maandbedragVoor: 2000
             maandbedragNa: 2000
-            maandbedragVoorHogerDanAfkoopgrens: True
+            maandbedragVoorHogerDanAfkoopgrens: true
           aanspraakOuderdomspensioenPartner:
             maandbedragVoor: 0
             maandbedragNa: 0
-            afkoopgrensTest: "Failed"
+            maandbedragNaHogerDanAfkoopgrens: false
 
 
 
