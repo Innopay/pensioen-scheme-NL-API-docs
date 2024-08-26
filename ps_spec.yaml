@@ -1149,7 +1149,7 @@ components:
             $ref: '#/components/schemas/aanspraakTijdelijkPensioen'
           aanspraakTijdelijkPensioenPartner:
             $ref: '#/components/schemas/aanspraakTijdelijkPensioenPartner'
-          aansprakBijzonderPartnerPensioen:
+          aanspraakBijzonderPartnerPensioen:
             $ref: '#/components/schemas/aanspraakBijzonderPartnerPensioen'
         required:
           - pensioenRegeling
