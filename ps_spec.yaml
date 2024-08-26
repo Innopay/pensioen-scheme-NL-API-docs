@@ -446,8 +446,8 @@ paths:
               properties:
                 scope:
                   type: string
-                  example: divorce-inform
-                  description: Describes the data scope that is requested within all personal data of a participant. MUST be one of the pre-defined scopes within the pensionservices scheme. For divorce, these are "divorce-inform" and "divorce-confirm".
+                  example: DIVORCE_INFORM
+                  description: Describes the data scope that is requested within all personal data of a participant. MUST be one of the pre-defined scopes within the pensionservices scheme. For divorce, these are "DIVORCE_INFORM" and "DIVORCE_CONFIRM".
                 serverConsentId:
                   $ref: '#/components/schemas/serverConsentId'
                 userInfoParameters:
@@ -469,8 +469,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/userInfo' 
               examples: 
-                divorce-inform:
-                  summary: Example for scope = divorce-inform
+                DIVORCE_INFORM:
+                  summary: Example for scope = DIVORCE_INFORM
                   value:
                     userInfoProfile:
                       aanhef: "Dhr."
@@ -480,8 +480,8 @@ paths:
                       verwantschapType: "gehuwd"
                       relatieStart: "2015-03-10"
                       relatieEind: "2023-08-22"
-                divorce-confirm:
-                  summary: Example for scope = divorce-confirm
+                DIVORCE_CONFIRM:
+                  summary: Example for scope = DIVORCE_CONFIRM
                   value:
                     userInfoIdentifier:
                       klantnummer: '1234512344'
@@ -509,11 +509,11 @@ paths:
                       bankrekeningnummer: "NL11RABO011111111"
                     userInfoPensioen:
                       polisnummerRegeling: '1234567890'
-                      typeRegeling: "uitkeringsregeling"
-                      looptijdRegeling: "levenslang"
+                      typeRegeling: "UITKERINGSREGELING"
+                      looptijdRegeling: "LEVENSLANG"
                       regelingStartdatum: "2001-01-01"
                       regelingEinddatum: "2008-01-01"
-                      deelnemerStatus: "actief"
+                      deelnemerStatus: "ACTIEF"
                     userInfoPartnerProfile:
                       partnerKlantnummer: '1234512345'
                       aanhef: "Mevr."
@@ -605,7 +605,7 @@ paths:
               properties:
                 scope:
                   type: string
-                  example: scheidingBerekening
+                  example: SCHEIDING_BEREKENING
                   description: Describes the data scope that is requested within all entitlement data of a participant. MUST be one of the pre-defined scopes within the pensionservices scheme.
                 serverConsentId:
                   $ref: '#/components/schemas/serverConsentId'
@@ -817,8 +817,8 @@ components:
             example: true
         consentType:
             type: string
-            description: Specifies the type of consent. MUST be set to single-use or recurring
-            example: recurring
+            description: Specifies the type of consent. MUST be set to SINGLE-USE or RECURRING
+            example: RECURRING
         maximumValidity:
             type: integer
             description: Optional property. In case of recurring consent type indicates the validity time of the consent in days
@@ -865,7 +865,7 @@ components:
         pensionService:
             type: string
             description: Details the service for which consent is provided.
-            example: divorce_inform
+            example: DIVORCE_INFORM
       required:
         - pensionService
     consentContext:
@@ -1047,12 +1047,12 @@ components:
           example: 1234567890
         typeRegeling:
           type: string
-          description: type of pension agreement. Can be 'uitkeringsregeling', 'premieregeling', 'kapitaalregeling'
-          example: uitkeringsregeling
+          description: type of pension agreement. Can be 'UITKERINGSREGELING', 'PREMIEREGELING', 'KAPITAALREGELING'
+          example: UITKERINGSREGELING
         looptijdRegeling:
           type: string
-          description: duration of pension agreement. Can be 'tijdelijk', 'levenslang'
-          example: levenslang
+          description: duration of pension agreement. Can be 'TIJDELIJK', 'LEVENSLANG'
+          example: LEVENSLANG
         regelingStartdatum:
           type: string
           description: starting date since the user became a participant with the pensionfund
@@ -1063,8 +1063,8 @@ components:
           example: 2008-01-01
         deelnemerStatus:
           type: string
-          description: describes the current status of the user with the pensionfund. Can be 'actief', 'slapend', 'gepensioneerd'
-          example: actief
+          description: describes the current status of the user with the pensionfund. Can be 'ACTIEF', 'SLAPEND', 'GEPENSIONEERD'
+          example: ACTIEF
     userInfoPartnerProfile:
       type: object
       properties:
@@ -1169,12 +1169,12 @@ components:
           example: 1234567890
         typeRegeling:
           type: string
-          description: type of pension agreement. Can be 'uitkeringsregeling', 'premieregeling', 'kapitaalregeling'
-          example: uitkeringsregeling
+          description: type of pension agreement. Can be 'UITKERINGSREGELING', 'PREMIEREGELING', 'KAPITAALREGELING'
+          example: UITKERINGSREGELING
         looptijdRegeling:
           type: string
-          description: duration of pension agreement. Can be 'tijdelijk' for temperory pensions, 'levenslang' for ouderdomspensioenen or 'partnerpensioen' for (B)PP
-          example: levenslang
+          description: duration of pension agreement. Can be 'TIJDELIJK' for temperory pensions, 'LEVENSLANG' for ouderdomspensioenen or 'partnerpensioen' for (B)PP
+          example: LEVENSLANG
         regelingStartdatum:
           type: string
           description: starting date since the user became a participant with the pensionfund
@@ -1185,8 +1185,8 @@ components:
           example: 2008-01-01
         deelnemerStatus:
           type: string
-          description: describes the current status of the user with the pensionfund. Can be 'actief', 'slapend', 'gepensioneerd'
-          example: actief
+          description: describes the current status of the user with the pensionfund. Can be 'ACTIEF', 'SLAPEND', 'GEPENSIONEERD'
+          example: ACTIEF
       required:
         - polisnummerRegeling
         - typeRegeling
@@ -1223,7 +1223,7 @@ components:
           example: 0
         maandbedragNa:
           type: number
-          description: Partner's expected monthly pension entitlement (EUR) after division of pension due to divorce based on request parameters.
+          description: Partner's expected monthly pension entitlement (EUR) after division of pension due to divorce based on request parameters. In case of conversion + tijdelijk pensioen, this is expected to be zero.
           example: 1000
         maandbedragNaHogerDanAfkoopgrens:
           type: boolean
@@ -1336,11 +1336,11 @@ components:
       value:
         - pensioenRegeling:
             polisnummerRegeling: "1234567890"
-            typeRegeling: "uitkeringsregeling"
-            looptijdRegeling: "levenslang"
+            typeRegeling: "UITKERINGSREGELING"
+            looptijdRegeling: "LEVENSLANG"
             regelingStartdatum: "2001-01-01"
             regelingEinddatum: "2008-01-01"
-            deelnemerStatus: "actief"
+            deelnemerStatus: "ACTIEF"
           aanspraak:
             maandbedragVoor: 2000
             maandbedragNa: 1000
@@ -1355,11 +1355,11 @@ components:
       value:
         - pensioenRegeling:
             polisnummerRegeling: "2345678901"
-            typeRegeling: "premieregeling"
-            looptijdRegeling: "tijdelijk"
+            typeRegeling: "PREMIEREGELING"
+            looptijdRegeling: "TIJDELIJK"
             regelingStartdatum: "2005-01-01"
             regelingEinddatum: "2015-01-01"
-            deelnemerStatus: "slapend"
+            deelnemerStatus: "SLAPEND"
           aanspraak:
             maandbedragVoor: 2000
             maandbedragNa: 1000
@@ -1374,10 +1374,10 @@ components:
       value:
         - pensioenRegeling:
             polisnummerRegeling: "3456789012"
-            typeRegeling: "uitkeringsregeling"
-            looptijdRegeling: "levenslang"
+            typeRegeling: "UITKERINGSREGELING"
+            looptijdRegeling: "LEVENSLANG"
             regelingStartdatum: "2010-01-01"
-            deelnemerStatus: "actief"
+            deelnemerStatus: "ACTIEF"
           aanspraak:
             maandbedragVoor: 3000
             maandbedragNa: 1500
@@ -1388,11 +1388,11 @@ components:
             maandbedragNaHogerDanAfkoopgrens: true
         - pensioenRegeling:
             polisnummerRegeling: "4567890123"
-            typeRegeling: "uitkeringsregeling"
-            looptijdRegeling: "tijdelijk"
+            typeRegeling: "UITKERINGSREGELING"
+            looptijdRegeling: "TIJDELIJK"
             regelingStartdatum: "2010-01-01"
             regelingEinddatum: "2030-01-01"
-            deelnemerStatus: "actief"
+            deelnemerStatus: "ACTIEF"
           aanspraak:
             maandbedragVoor: 4000
             maandbedragNa: 400
@@ -1406,11 +1406,11 @@ components:
       value:
         - pensioenRegeling:
             polisnummerRegeling: "1234567890"
-            typeRegeling: "uitkeringsregeling"
-            looptijdRegeling: "levenslang"
+            typeRegeling: "UITKERINGSREGELING"
+            looptijdRegeling: "LEVENSLANG"
             regelingStartdatum: "2001-01-01"
             regelingEinddatum: "2008-01-01"
-            deelnemerStatus: "actief"
+            deelnemerStatus: "ACTIEF"
           aanspraak:
             maandbedragVoor: 2000
             maandbedragNa: 2000
