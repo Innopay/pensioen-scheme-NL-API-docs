@@ -1157,6 +1157,8 @@ components:
           #   $ref: '#/components/schemas/aanspraakBijzonderPartnerPensioen'
         required:
           - pensioenRegeling
+          - aanspraak
+          - aanspraakPartner
 
     pensioenRegeling:
       type: object
