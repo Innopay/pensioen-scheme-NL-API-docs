@@ -1122,8 +1122,8 @@ components:
            type: number
            example: 50
         verdelingsMethode:
-           description: Can be either 'verevening' or 'conversie'.
-           example: verevening
+           description: Can be either 'VEREVENING' or 'CONVERSIE'.
+           example: VEREVENING
         acceptatieBijzonderPartnerPensioen:
            description: Indicates whether ex-partner is accepting their allocated 'Bijzonder Partner Pensioen' (BPP) if applicable. True indicates that partner accepts the allocated BPP, which then needs to be considered in conversion calculations. False indicates partner is declining their right to BPP.
            type: boolean
@@ -1322,7 +1322,7 @@ components:
     #       example: 800
     #     maandBedragNa:
     #       type: number
-    #       description: Accrued BPP after applying divorce division parameters. Remains the same in case of declined BPP acceptance or accepted with verevening method. Is reset to 0 when BPP is accepted by the ex-partner and conversion is applied.
+    #       description: Accrued BPP after applying divorce division parameters. Remains the same in case of declined BPP acceptance or accepted with VEREVENING method. Is reset to 0 when BPP is accepted by the ex-partner and conversion is applied.
     #       example: 800
     #   required:
     #     - maandBedragVoor
