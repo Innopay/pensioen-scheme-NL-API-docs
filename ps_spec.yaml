@@ -638,6 +638,8 @@ paths:
                   $ref: '#/components/examples/combinedExample'
                 afkoopgrens:
                   $ref: '#/components/examples/afkoopgrensExample'
+                bijzonderPartnerPensioen:
+                  $ref: '#/components/examples/BPPExample'
         '400':
           description: Bad request 
           content:
@@ -1173,7 +1175,7 @@ components:
           example: UITKERINGSREGELING
         looptijdRegeling:
           type: string
-          description: duration of pension agreement. Can be 'TIJDELIJK' for temperory pensions, 'LEVENSLANG' for ouderdomspensioenen or 'partnerpensioen' for (B)PP
+          description: duration of pension agreement. Can be 'TIJDELIJK' for temperory pensions, 'LEVENSLANG' for ouderdomspensioenen or 'PARTNERPENSIOEN' for (B)PP
           example: LEVENSLANG
         regelingStartdatum:
           type: string
@@ -1339,7 +1341,6 @@ components:
             typeRegeling: "UITKERINGSREGELING"
             looptijdRegeling: "LEVENSLANG"
             regelingStartdatum: "2001-01-01"
-            regelingEinddatum: "2008-01-01"
             deelnemerStatus: "ACTIEF"
           aanspraak:
             maandbedragVoor: 2000
@@ -1409,7 +1410,6 @@ components:
             typeRegeling: "UITKERINGSREGELING"
             looptijdRegeling: "LEVENSLANG"
             regelingStartdatum: "2001-01-01"
-            regelingEinddatum: "2008-01-01"
             deelnemerStatus: "ACTIEF"
           aanspraak:
             maandbedragVoor: 2000
@@ -1419,10 +1419,32 @@ components:
             maandbedragVoor: 0
             maandbedragNa: 0
             maandbedragNaHogerDanAfkoopgrens: false
-
-
-
-
+    BPPExample:
+      summary: BPP example (only possible for Conversion)
+      value:
+        - pensioenRegeling:
+            polisnummerRegeling: "1234567890"
+            typeRegeling: "UITKERINGSREGELING"
+            looptijdRegeling: "LEVENSLANG"
+            regelingStartdatum: "2001-01-01"
+            deelnemerStatus: "ACTIEF"
+          aanspraak:
+            maandbedragVoor: 2000
+            maandbedragNa: 2000
+            maandbedragVoorHogerDanAfkoopgrens: true
+          aanspraakPartner:
+            maandbedragVoor: 0
+            maandbedragNa: 0
+            maandbedragNaHogerDanAfkoopgrens: false
+        - pensioenRegeling:
+            polisnummerRegeling: "6789012345"
+            typeRegeling: "UITKERINGSREGELING"
+            looptijdRegeling: "PARTNERPENSIOEN"
+            regelingStartdatum: "2001-01-01"
+            deelnemerStatus: "ACTIEF"
+          aanspraakPartner:
+            maandbedragVoor: 0
+            maandbedragNa: 600
 
 
   securitySchemes:
