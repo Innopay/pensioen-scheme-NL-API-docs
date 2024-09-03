@@ -1149,7 +1149,7 @@ components:
            description: Can be either 'VEREVENING' or 'CONVERSIE'.
            example: VEREVENING
         acceptatieBijzonderPartnerPensioen:
-           description: Indicates whether ex-partner is accepting their allocated 'Bijzonder Partner Pensioen' (BPP) if applicable. True indicates that partner accepts the allocated BPP, which then needs to be considered in conversion calculations. False indicates partner is declining their right to BPP.
+           description: Only applicable if verdelingsMethode is not CONVERSIE. Indicates whether ex-partner is accepting their allocated 'Bijzonder Partner Pensioen' (BPP) if applicable. True indicates that partner accepts the allocated BPP, which then needs to be considered in conversion calculations. False indicates partner is declining their right to BPP. When CONVERSIE is chosen, the (B)PP is converted into the ouderdomspensioen of the ex-partner.
            type: boolean
            example: true
       required:
