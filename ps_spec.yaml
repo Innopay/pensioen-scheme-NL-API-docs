@@ -673,6 +673,17 @@ paths:
                     type: string
                     description: The server's error response
                     example: Client is not authorized to access requested resource
+        '422':
+          description: Unprocessable Entity
+          content: 
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Scheidingsberekeningen niet beschikbaar voor deze deelnemer door waardeoverdracht.
 
 
 components:
