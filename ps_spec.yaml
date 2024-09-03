@@ -566,6 +566,17 @@ paths:
                     type: string
                     description: The server's error response
                     example: Client is not authorized to access requested resource
+        '422':
+          description: Unprocessable Entity
+          content: 
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: Geen relatie (huwelijk of reg. partnerschap) bekend bij pensioenfonds
 
   /pensionservices-scheme/v1.0/participants/entitlements:
     post:
