@@ -1231,12 +1231,11 @@ components:
           example: 1000
         maandbedragVoorHogerDanAfkoopgrens:
           type: boolean
-          description: Indicates whether entitlement meets legal minimum for division of pension (indepedent of division). Entitlements falling below the division limit cannot be divided. Must be either True (division limit is met) or False (division limit is not met).
+          description: Indicates whether entitlement meets legal minimum for division of pension (indepedent of division). Entitlements falling below the division limit cannot be divided. Must be either True (division limit is met) or False (division limit is not met). Not used for BPP.
           example: true
       required:
         - maandbedragVoor
         - maandbedragNa
-        - maandbedragVoorHogerDanAfkoopgrens
     aanspraakPartner:
       type: object
       description: object for the user's part of pension. Required for OP, TP and BPP.
@@ -1251,12 +1250,11 @@ components:
           example: 1000
         maandbedragNaHogerDanAfkoopgrens:
           type: boolean
-          description: Indicates whether resulting entitlement (based on division) meets legal minimum for division of pension. Entitlements divisions where the ex-partner's share is below the division limit cannot be divided.  Must be either true (division limit is met) or false (division limit is not met). Set to true in case of BPP.
+          description: Indicates whether resulting entitlement (based on division) meets legal minimum for division of pension. Entitlements divisions where the ex-partner's share is below the division limit cannot be divided.  Must be either true (division limit is met) or false (division limit is not met). Not used for BPP.
           example: true
       required:
         - maandbedragVoor
         - maandbedragNa
-        - maandbedragNaHogerDanAfkoopgrens
     # aanspraakOuderdomspensioen:
     #   type: object
     #   description: optional object, MUST be used if the duration of the pension agreement type is set to "levenslang" (life long, old age agreement)
@@ -1464,9 +1462,12 @@ components:
             looptijdRegeling: "PARTNERPENSIOEN"
             regelingStartdatum: "2001-01-01"
             deelnemerStatus: "ACTIEF"
-          aanspraakPartner:
+          aanspraak:
             maandbedragVoor: 0
-            maandbedragNa: 600
+            maandbedragNa: 0
+          aanspraakPartner:
+            maandbedragVoor: 600
+            maandbedragNa: 500
 
 
   securitySchemes:
