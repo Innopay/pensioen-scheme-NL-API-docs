@@ -6,7 +6,7 @@ info:
 servers:
   - url: https://api.example.com
 paths:
-  /pensioenservices-scheme/v1.0/token:
+  /pensionservices-scheme/v1.0/token:
     post:
       summary: Retrieve access token
       description: Access to resource endpoints is granted based on access tokens. Each approved and active Scheme participant must be able to request access tokens by using the token endpoint offered by each datasource. To obtain an Access Token the OAuth client credentials type grant flow is used as explained in RFC6749 & RFC7523, parameter naming conventions will follow OAuth standards. As clients may not be pre-registered, the client secret is replaced with a client assertion using the client's certificate. Additionally, the client presents a status token (issued & signed by Scheme Authority) to prove the accepted & active participant status for the client.  
@@ -108,7 +108,7 @@ paths:
                     description: The server's error response
                     example: Client is not authorized to access requested resource
 
-  /pensioenservices-scheme/v1.0/server-certificate:
+  /pensionservices-scheme/v1.0/server-certificate:
     get:
       summary: Retrieve server certificate
       description: Provides the signing certificate (X.509 certificate in base64 encoded PEM format) that is used by the server in the context of the pensionservices data sharing scheme. Can be used for validating the server identity, response signatures or the server's public key can be used to encrypt sensitive data towards the server.
@@ -155,7 +155,7 @@ paths:
                     description: The server's error response
                     example: Client is not authorized to access requested resource.
      
-  /pensioenservices-scheme/v1.0/deelnemers/consents:
+  /pensionservices-scheme/v1.0/participants/consents:
     post:
       summary: Create consent
       description: Provides new collected user consent to server. Server responds with a resource reference ID to be used for further reference to the consent. Resource reference ID must be URL encoded value. Request and response (2xx) MUST be signed using X-Timestamp and X-Signature headers.
@@ -242,7 +242,7 @@ paths:
                     type: string
                     description: The server's error response
                     example: Client is not authorized to access requested resource
-  /pensioenservices-scheme/v1.0/consents/{serverConsentId}:
+  /pensionservices-scheme/v1.0/consents/{serverConsentId}:
     patch:
       summary: Update consent
       description: Send updated data to previously created consent at the server. Only requires the client to send values for attributes in the consentRegistration that are changed. Primarily used for renewing the validity period. Request and response (2xx) MUST be signed using X-Timestamp and X-Signature headers.
@@ -408,7 +408,7 @@ paths:
                     type: string
                     description: The server's error response
                     example: The requested consent resource does not exist
-  /pensioenservices-scheme/v1.0/deelnemers/userinfo:
+  /pensionservices-scheme/v1.0/participants/userinfo:
     post:
       summary: Retrieve participant personal data
       description: Requests a set of personal data about a specific participant. To prevent logging of Dutch personal identifiers through URL paths, a POST is used with the Dutch personal identifier as part of request body. Each pensionservice has an ID token scope associated with the service to ensure only the relevant specific set of personal data is shared. Only a subset of the example response will be returned based on requested scope. Request and response (2xx) MUST be signed using X-Timestamp and X-Signature headers.
@@ -578,7 +578,7 @@ paths:
                     description: The server's error response
                     example: Geen relatie (huwelijk of reg. partnerschap) bekend bij pensioenfonds
 
-  /pensioenservices-scheme/v1.0/deelnemers/aanspraken:
+  /pensionservices-scheme/v1.0/participants/entitlements:
     post:
       summary: Retrieve divorce calculations
       description: Retrieves specific pension entitlement calculations specifically for divorce pensionservices). Request and response (2xx) MUST be signed using X-Timestamp and X-Signature headers.
@@ -867,7 +867,7 @@ components:
         audience:
             type: string
             description: Specifies the intended audience that validates the client_assertion. Should be set to the API consent endpoint path or other server identifier.
-            example: https://api.server_domain/pensioenservices-scheme/v1.0/deelnemers/consents
+            example: https://api.server_domain/pensionservices-scheme/v1.0/participants/consents
         expiresAt:
             type: integer
             description: Expiry time for consent. MUST be formatted in unix epoch time. For single-use consent it should be set to "iat" + 3600, for recurring consent it should be set to "iat" + the time that is specified for the pensionservice scope.
@@ -1478,6 +1478,6 @@ components:
         Clients must obtain a Bearer token from the token endpoint using a client assertion (see /token for details).
       flows:
         clientCredentials:
-          tokenUrl: https://api.example.com/pensioenservices-scheme/v1.0/token
+          tokenUrl: https://api.example.com/pensionservices-scheme/v1.0/token
           scopes:
             afsprakenstelsel_pensioenservices: Access pension services
