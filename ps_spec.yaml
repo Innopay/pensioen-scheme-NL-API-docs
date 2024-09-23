@@ -514,25 +514,6 @@ paths:
                       regelingStartdatum: "2001-01-01"
                       regelingEinddatum: "2008-01-01"
                       deelnemerStatus: "ACTIEF"
-                    userInfoPartnerProfile:
-                      partnerKlantnummer: '1234512345'
-                      aanhef: "Mevr."
-                      initialen: "C.D."
-                      voornamen: "Marie"
-                      achternaam: "van Gevelt"
-                      voorkeursnaam: "C.D. van Gevelt"
-                      gender: "female"
-                      geboortedatum: "1987-08-25"
-                    userInfoPartnerAddress:
-                      woonadres: "Hoofdweg 21a"
-                      woonplaats: "Amsterdam"
-                      regio: "Noord-Holland"
-                      postcode: "1234AB"
-                      land: "Nederland"
-                    userInfoPartnerContact:
-                      emailadres: "jandeboer@emailprovider.com"
-                      telefoonnummer: '31612345678'
-                      bankrekeningnummer: "NL11RABO011111111"
         '400':
           description: Bad request 
           content:
