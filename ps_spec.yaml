@@ -1150,16 +1150,6 @@ components:
             $ref: '#/components/schemas/aanspraak'
           aanspraakPartner:
             $ref: '#/components/schemas/aanspraakPartner'
-          # aanspraakOuderdomspensioen:
-          #   $ref: '#/components/schemas/aanspraakOuderdomspensioen'
-          # aanspraakOuderdomspensioenPartner:
-          #   $ref: '#/components/schemas/aanspraakOuderdomspensioenPartner'
-          # aanspraakTijdelijkPensioen:
-          #   $ref: '#/components/schemas/aanspraakTijdelijkPensioen'
-          # aanspraakTijdelijkPensioenPartner:
-          #   $ref: '#/components/schemas/aanspraakTijdelijkPensioenPartner'
-          # aanspraakBijzonderPartnerPensioen:
-          #   $ref: '#/components/schemas/aanspraakBijzonderPartnerPensioen'
         required:
           - pensioenRegeling
           - aanspraak
@@ -1212,7 +1202,7 @@ components:
           example: 1000
         maandbedragVoorHogerDanAfkoopgrens:
           type: boolean
-          description: Indicates whether entitlement meets legal minimum for division of pension (indepedent of division). Entitlements falling below the division limit cannot be divided. Must be either True (division limit is met) or False (division limit is not met). Not used for BPP.
+          description: Indicates whether entitlement meets legal minimum for division of pension (indepedent of chosen division). Entitlements falling below the division limit may not be divided. Must be either True (division limit is met) or False (division limit is not met). Not used for BPP. Note that the afkoopgrens is set on annual basis by public government. The data source should use the jaarlijkse aanspraak instead of maandelijkse aanspraak for comparison to the afkoopgrens.
           example: true
       required:
         - maandbedragVoor
@@ -1231,108 +1221,12 @@ components:
           example: 1000
         maandbedragNaHogerDanAfkoopgrens:
           type: boolean
-          description: Indicates whether resulting entitlement (based on division) meets legal minimum for division of pension. Entitlements divisions where the ex-partner's share is below the division limit cannot be divided.  Must be either true (division limit is met) or false (division limit is not met). Not used for BPP.
+          description: Indicates whether resulting entitlement (based on division) meets legal minimum for division of pension. Entitlements divisions where the ex-partner's share is below the division limit cannot be divided.  Must be either true (division limit is met) or false (division limit is not met). Not used for BPP. Note that the afkoopgrens is set on annual basis by public government. The data source should use the jaarlijkse aanspraak instead of maandelijkse aanspraak for comparison to the afkoopgrens.
           example: true
       required:
         - maandbedragVoor
         - maandbedragNa
-    # aanspraakOuderdomspensioen:
-    #   type: object
-    #   description: optional object, MUST be used if the duration of the pension agreement type is set to "levenslang" (life long, old age agreement)
-    #   properties:
-    #     maandbedragVoor:
-    #       type: number
-    #       description: Expected monthly old age pension entitlement (EUR) before division of pension due to divorce.
-    #       example: 2000
-    #     maandbedragNa:
-    #       type: number
-    #       description: Expected monthly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
-    #       example: 1000
-    #     maandbedragVoorHogerDanAfkoopgrens:
-    #       type: boolean
-    #       description: Indicates whether entitlement meets legal minimum for division of pension (indepedent of division). Entitlements falling below the division limit cannot be divided. Must be either True (division limit is met) or False (division limit is not met).
-    #       example: true
-    #   required:
-    #     - maandbedragVoor
-    #     - maandbedragNa
-    #     - maandbedragVoorHogerDanAfkoopgrens
-    # aanspraakOuderdomspensioenPartner:
-    #   type: object
-    #   description: optional object, MUST be used if the duration of the pension agreement type is set to "levenslang" (life long, old age agreement)
-    #   properties:
-    #     maandbedragVoor:
-    #       type: number
-    #       description: Partner's expected monthly old age pension entitlement (EUR) before division of pension due to divorce.
-    #       example: 0
-    #     maandbedragNa:
-    #       type: number
-    #       description: Partner's expected monthly old age pension entitlement (EUR) after division of pension due to divorce based on request parameters.
-    #       example: 1000
-    #     maandbedragNaHogerDanAfkoopgrens:
-    #       type: boolean
-    #       description: Indicates whether resulting entitlement (based on division) meets legal minimum for division of pension. Entitlements divisions where the ex-partner's share is below the division limit cannot be divided.  Must be either true (division limit is met) or false (division limit is not met).
-    #       example: true
-    #   required:
-    #     - maandbedragVoor
-    #     - maandbedragNa
-    #     - maandbedragNaHogerDanAfkoopgrens
-    # aanspraakTijdelijkPensioen:
-    #   type: object
-    #   description: optional object, MUST be used if the duration of the pension agreement type is set to "tijdelijk" (temporary, flexible pension agreement)
-    #   properties:
-    #     maandbedragVoor:
-    #       type: number
-    #       description: Expected monthly flexible pension entitlement (EUR) before division of pension due to divorce, during the timeframe indicated in the pension agreement startdate and enddate.
-    #       example: 0
-    #     maandbedragNa:
-    #       type: number
-    #       description: Expected monthly flexible pension entitlement (EUR) after division of pension due to divorce based on request parameters, during the timeframe indicated in the pension agreement startdate and enddate.
-    #       example: 1000
-    #     maandbedragVoorHogerDanAfkoopgrens:
-    #       type: boolean
-    #       description: Indicates whether entitlement meets legal minimum for division of pension (indepedent of division). Entitlements falling below the division limit cannot be divided. Must be either True (division limit is met) or False (division limit is not met).
-    #       example: True
-    #   required:
-    #     - maandbedragVoor
-    #     - maandbedragNa
-    #     - maandbedragVoorHogerDanAfkoopgrens
-    # aanspraakTijdelijkPensioenPartner:
-    #   type: object
-    #   description: optional object, MUST be used if the duration of the pension agreement type is set to "tijdelijk" (temporary, flexible pension agreement)
-    #   properties:
-    #     maandbedragVoor:
-    #       type: number
-    #       description: Partner's expected monthly flexible pension entitlement (EUR) before division of pension due to divorce, during the timeframe indicated in the pension agreement startdate and enddate.
-    #       example: 0
-    #     maandbedragNa:
-    #       type: number
-    #       description: Partner's expected monthly flexible pension entitlement (EUR) after division of pension due to divorce based on request parameters, during the timeframe indicated in the pension agreement startdate and enddate.
-    #       example: 1000
-    #     maandbedragNaHogerDanAfkoopgrens:
-    #       type: boolean
-    #       description: Indicates whether resulting entitlement (based on division) meets legal minimum for division of pension. Entitlements divisions where the ex-partner's share is below the division limit cannot be divided.  Must be either true (division limit is met) or false (division limit is not met).
-    #       example: true
-    #   required:
-    #     - maandbedragVoor
-    #     - maandbedragNa
-    #     - maandbedragNaHogerDanAfkoopgrens
-    # aanspraakBijzonderPartnerPensioen:
-    #   type: object
-    #   properties:
-    #     maandBedragVoor:
-    #       type: number
-    #       description: Current accrual of Bijzonder Partner Pensioen (BPP) as a reservation for the partner in case when the participant passes away.
-    #       example: 800
-    #     maandBedragNa:
-    #       type: number
-    #       description: Accrued BPP after applying divorce division parameters. Remains the same in case of declined BPP acceptance or accepted with VEREVENING method. Is reset to 0 when BPP is accepted by the ex-partner and conversion is applied.
-    #       example: 800
-    #   required:
-    #     - maandBedragVoor
-    #     - maandBedragNa
-
-
-
+    
   examples:
     pensioenOuderdomExample:
       summary: Only Ouderdomspensioen example
