@@ -107,6 +107,17 @@ paths:
                     type: string
                     description: The server's error response
                     example: Client is not authorized to access requested resource
+        '500':
+          description: Internal server error 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: The server was unable to complete your request. Please try again later.
 
   /pensionservices-scheme/v1.0/server-certificate:
     get:
@@ -154,6 +165,17 @@ paths:
                     type: string
                     description: The server's error response
                     example: Client is not authorized to access requested resource.
+        '500':
+          description: Internal server error 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: The server was unable to complete your request. Please try again later.
      
   /pensionservices-scheme/v1.0/participants/consents:
     post:
@@ -242,6 +264,18 @@ paths:
                     type: string
                     description: The server's error response
                     example: Client is not authorized to access requested resource
+        '500':
+          description: Internal server error 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: The server was unable to complete your request. Please try again later.
+                    
   /pensionservices-scheme/v1.0/consents/{serverConsentId}:
     patch:
       summary: Update consent
@@ -334,6 +368,17 @@ paths:
                     type: string
                     description: The server's error response
                     example: Client is not authorized to access requested resource
+        '500':
+          description: Internal server error 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: The server was unable to complete your request. Please try again later.
     delete:
       summary: Delete consent
       description: Delete the specified consent resource from the server. Requires the client to send the serverConsentId to identify the consent resource to be deleted. The request MUST be signed using X-Timestamp and X-Signature headers.
@@ -408,6 +453,17 @@ paths:
                     type: string
                     description: The server's error response
                     example: The requested consent resource does not exist
+        '500':
+          description: Internal server error 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: The server was unable to complete your request. Please try again later.
   /pensionservices-scheme/v1.0/participants/userinfo:
     post:
       summary: Retrieve participant personal data
@@ -558,6 +614,17 @@ paths:
                     type: string
                     description: The server's error response
                     example: Geen relatie (huwelijk of reg. partnerschap) bekend bij pensioenfonds
+        '500':
+          description: Internal server error 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: The server was unable to complete your request. Please try again later.
 
   /pensionservices-scheme/v1.0/participants/entitlements:
     post:
@@ -676,7 +743,17 @@ paths:
                     type: string
                     description: The server's error response
                     example: Scheidingsberekeningen niet beschikbaar voor deze deelnemer door waardeoverdracht.
-
+        '500':
+          description: Internal server error 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_response:
+                    type: string
+                    description: The server's error response
+                    example: The server was unable to complete your request. Please try again later.
 
 components:
   headers:
